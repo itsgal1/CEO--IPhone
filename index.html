@@ -176,13 +176,15 @@ img{-webkit-user-drag:none}
 .msgs::-webkit-scrollbar{display:none}
 .sysm{margin:8px 50px 10px;padding:8px 12px;border-radius:10px;background:#2a2617;color:#ffd279;font-size:12.5px;text-align:center;line-height:1.5}
 .dchip{display:table;margin:8px auto;padding:5px 12px;border-radius:9px;background:#1d1f1f;font-size:13px;color:#d1d7db}
-.b{max-width:80%;margin:3px 10px;padding:6px 10px 7px;border-radius:16px;font-size:16px;line-height:1.35;position:relative;word-wrap:break-word;width:fit-content;animation:pop .25s ease-out}
+.b{display:flow-root;max-width:80%;margin:3px 10px;padding:6px 10px 7px;border-radius:16px;font-size:16px;line-height:1.35;position:relative;word-wrap:break-word;width:fit-content;animation:pop .25s ease-out}
 @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
 .b.in{background:#262628;margin-right:auto;border-top-left-radius:4px}
 .b.out{background:#144d37;margin-left:auto;border-top-right-radius:4px}
+.b[dir=rtl] .tm{float:left;margin:8px 10px -4px 0}
+.b[dir=rtl] .fr{text-align:right}
 .b.cont{margin-top:1px;border-radius:16px}
 .b .fr{display:block;font-size:13px;font-weight:600;margin-bottom:1px}
-.b .tm{float:right;font-size:11.5px;color:rgba(255,255,255,.55);margin:8px 0 -4px 10px;display:flex;align-items:center;gap:3px}
+.b .tm{direction:ltr;float:right;font-size:11.5px;color:rgba(255,255,255,.55);margin:8px 0 -4px 10px;display:flex;align-items:center;gap:3px}
 .typing{display:flex;gap:4px;padding:12px 14px}
 .typing i{width:7px;height:7px;border-radius:50%;background:#8696a0;animation:ty 1s infinite}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
@@ -192,6 +194,31 @@ img{-webkit-user-drag:none}
 .composer .inp{flex:1;min-width:0;height:40px;border-radius:20px;background:#2c2c2e;display:flex;align-items:center;padding:0 12px;gap:8px}
 .composer input{flex:1;background:none;border:0;outline:0;font-size:16px;min-width:0}
 
+/* voice note */
+.vn{width:270px;max-width:80%;padding:8px 10px 6px}
+.vrow{display:flex;align-items:center;gap:8px}
+.vplay{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex:none}
+.vwave{position:relative;flex:1;height:30px;display:flex;align-items:center;justify-content:space-between;gap:1px}
+.vwave i{display:block;width:2.5px;border-radius:2px;background:rgba(255,255,255,.4);transform-origin:center;transition:background .15s}
+.vwave i.on{background:#fff}
+.vn.playing .vwave i.on{animation:vb .45s ease-in-out infinite alternate}
+@keyframes vb{from{transform:scaleY(1)}to{transform:scaleY(.55)}}
+.vdot{position:absolute;top:50%;left:-6px;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:#53bdeb;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.vav{position:relative;width:40px;height:40px;flex:none}
+.vavi{width:40px;height:40px;border-radius:50%;overflow:hidden}
+.vavi svg{width:100%;height:100%;display:block}
+.ceo-av{width:100%;height:100%;background:linear-gradient(#a5a5ab,#76767c);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.vmic{position:absolute;left:-4px;bottom:-2px}
+.vmeta{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 0 36px;font-size:11.5px;color:rgba(255,255,255,.6)}
+.vmeta .tm{float:none;margin:0}
+/* iOS alert */
+.ios-alert{position:absolute;inset:0;z-index:880;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);backdrop-filter:blur(2.5px);-webkit-backdrop-filter:blur(2.5px)}
+.ia-box{width:272px;border-radius:26px;overflow:hidden;background:rgba(44,44,46,.86);backdrop-filter:blur(40px) saturate(1.6);-webkit-backdrop-filter:blur(40px) saturate(1.6);box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(255,255,255,.14);text-align:center}
+.ia-body{padding:20px 18px 18px}
+.ia-body b{display:block;font-size:17px;font-weight:600;margin-bottom:6px}
+.ia-body p{font-size:14px;line-height:1.35;color:rgba(255,255,255,.88)}
+.ia-btn{display:block;width:calc(100% - 28px);margin:0 14px 14px;height:46px;border-radius:23px;background:rgba(120,120,128,.32);color:#fff;font-size:17px;font-weight:600}
+.ia-btn:active{background:rgba(120,120,128,.55)}
 /* notes */
 .ynav .back{color:var(--yellow)}
 .dots-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--yellow);display:flex;align-items:center;justify-content:center;color:var(--yellow)}
@@ -372,11 +399,13 @@ const CONFIG = {
   // Photos: replace an album's "photos" with your own image paths, e.g. ["photos/work1.jpg","photos/work2.jpg"]
   albums: [
     { name: "Work Life 📊", photos: null },
-    { name: "The Never-Ending Follow-ups 📧", photos: null },
-    { name: "Queen Of Mueen 👑", photos: null },
-    { name: "CEO Survival Kit ☕", photos: null }
+    { name: "The Never-Ending Follow-ups 📧", photos: null }
   ]
 };
+
+/* صورة الرئيس */
+const CEO_PHOTO="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAEtAUoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDweiiigAooooAKUCgCnhcUAIF9aeBQBTgKAEApwWlC08CgBoWnAU4LTglADQuacEp4WnBaAGBadinBacFoAZto21IFpdtAEe2l21Jto20AR7aNtS7fajbQBFtpCtTbaTbQBFtpCKm200rQBFikK1LtpCtAEJSmFanK00igCDFIRUxSmFaAIitNIqUimlaAIiKaVz9alIppFAEJFJUpGaYRigBtFFFABRRRQAUUUUAFKBQBTwMfWgAUYFPApAKeBQAgFPC0oFOAoAQCnhacq08CgBAuKcBShaeFoAaFpwWnBaeEzQAwLShakCVBqV4NPsnuNu4jAUepPSgB7lIlLyOqKO7HAqtDqdrc3UdpamS7uJW2pFbxl2Y+grj9QvLi/mUyT9TgljgL+HpXo/hLV/BHh/w4Nl+E1yOYO1w0bbpcHopxwv8Anmpk7G1GmpytJ2Ru6J4Bv9TuLm2uT9iuLeLzGhddzkfgcCty0+HdnJ4ZTUwJnuEl2zIX+XGe3p+J7irdt8UPBra5YapDrdlFJJGUuFuVceWPUsq9fZRn3HSthfix8PtPfVbI+J7eW3uAHha0tOn+wXdSWPTk5qHzM9KksPCz0ez118mv1JJ/hpoUesaUE00myu48MhZhlsdc54/E4qm/wp0e5fV7aIzRXFpl4WWXgr6EHr6VO3xj+HL2mj7tflL27jzEm08THZ/dJCDAHbFP/wCF6+BYtT1OY6s7pcJthkitp5FB6fcYAgkcEqwFNJ3/AK7DlOha2mi/J/5HDeIPhnq9hY2V9pJi1OK7+UQt+6kD/wB0NyrfpXn8mtwWl3JZahb3NjdRMUkinQgo3oa9dn+OHg8aZYWyRalLLbXO9zHbH51z94FsZ44weenJ6Hzv4leL9F8eXV5c2uhXkVxIyG3u5mVGQD7wYDggjt261SucuIhQabg7PX56/wCRVjaOZA8Tq6noVORSlK5a0vP7JKlXDMSAUB4IrqreZLqFZU6N29D6VRwDCtNK1YK00pQBAVphWpylNK0AQEU0ipytMK0AQMtMK1ORTStAEBFMIqZlphFAERFNIqQimkUAREYptSkZphGKAG0UUUAFKKSnqM0AKoxTgKAKcBQAoFPApFFPUUACrUirSqtPAoAQCnhaVVp4FACBaeFzTlTNSBaAGhKcFpwWnhaAGha5/wAYSzJbQ28ZCpKSWY9yOg/rXSha6LSfBNvr+hXd1NPaSvGrf6JIMtwM7vrjJH4fSlJ2VzWjRdWXKjw0C7BwCnHuKcPtueq8fSvbtT+A+jyadHqtjNqEUCf8fUAZZZIeny8fxnOAvbOWI6VUk+BOjxX9ug1ieW2uRsQLIiyLJnoc9h0z3PPAqfaI3WBqP+ux5Av9o8gKrH6LTw2qMSyxL/3yte5af+zJay3kNjNrt0bhlMkrwIrxxqD904z836VZX9mvSJobqa21rUZxHOkMPEW2cEjO1hxuAz8pAPFNSTF9SqeR4Kras+QFx+CilU6uMndtHTqte6Tfs+aJb3kqvda2ba2uxb3E0vlxKiY+/kjkA4/MVZ/4Z28NwXAW61PVEtrld9teBkEZ4yE2kb3PuFHWlzor6hVPAyupFfnu1X28wUfZi3/Hxfgj/fJ/lX0dF8CfAehy3Vv4g863Pl5t5pbtljLbfUhc/THtWlo3gT4aaRFpNxd2OnC5YvG5kYyRTNj5TtLcsODgZ7iq5kL6nLv/AFa587+HvC+oa/cNFoul3eoSL8zOEwiD1ZjwB9TXUx6PcaLGtrdIyy43nIwGz3Ht/hX0dpFssOk22n6VFGtzqKM8rxqPs8bKOFZcfdZTsP8AujvWZ4x8IWfiu107StMjhimhUxQXe4uBKB80EjY+m00uY1ngbRfK9f0X/B2PBCtNK1curSazuJba4jaKaJyjow5VgcEVAVqjzmrbkBWmFasFaYVoArsuKYRVgrTGSgCuVphFTlaYVoAgZc1Gy1ORTSKAK5FNIqVhTCKAIiKawzUhFNIoAhIpKkYd6ZigBQM08CkUYp4FACgU9RSKKeBQAoFSKtIq1IBQAoFPVaFFSAUAAFSKtCrUirQABaeq0qrTwtACBaeFpyrUgWgBgTivYdCjEVxaLYIseu/Ywfs3klVlQYw+4jCjChQxHbIHOa858N6T/aWoLvMYhgHnSiQEho1I3AAdWx0XvXpMMCNpaottcarokiq1lbRP/p8uSfnlYkFUUkjB6cVnPV2PTwVNqLm+v9f0vxRl+IruDSNOubq40/UbD7MMSJZT7bbzs/NsJHzN8wBds84C88jz2xi1DXHaSSWRYnPCBj+rdTVTxt4sHizxeui2El01lZSEzGV8h3XhUVegRMkDuTknrWlca5c6VD9j0my+0ToNryEfKh9B71z1W78sTeVRO7ZvaFpWqaJdR3elTy200ZyrIe/uOhrvNO8VyjTbi11i0WS9mkRmuxHxMoOcSAYII7OvI/DFeQw/EDxJpuBdaWiqT99o24rsvD/jqO9hVr2JS3fI4/8A11nacNUwhiIt6o9N1YJdavcw3V0ZdPngWe2knZGjiIXAaMA5lOcfeAGazjcajeWsVs1w67F2m6Yf6RJznl+w6cL6VSudWsYYHktYAWC59K5DxD4v1q2hxp2CcZA2BsGk5Sm+xUqyUUktjqLvwlY3W4zjzHbqzncT+JrgtfsNR8AXX9q2MUd9axHzDbzjfG2PUdiOxHIptrL8QNZBeeUiNuQHYIfrjHFdFaT6le27aRr8Cu0qFY5hyJOOh9DScXDVO5MKzejVjT8FeKbTVdLt/Epe8n1G+jEMEcS75bcliCOyygEfxDcP1ruRaNZ6dPpT3MUTXQmuJtStRsigIxywz8p/Gvm3wTdReF/Gt5oF4dQdbOZrqxggY8nH7wY9dnzD3X3r23RNWvClzss5rVrkqBrEhUrLCxyJJIxjK4434yD165rrjI3h78VJ/wBNbfJb9b9mc58WfDMT2tlr9nDIZ/KRb9wOJAQAk/GRhuQSD1xnmvLilfRWqxxarDd2LWzJYXbEJAJBslhjibMluV4PYlD/ADrwvxBokmg6pLYyP5oTDJKBgSIRkHHY9iOxBFbJnl4ui4vn7mMUphWrLLUbLTOIrstRlasFaYy0AV2XNRMtWWXFRsuaAK7LUZFTkUxhQBAy5qNlxU5FRstAEJFRkVMRTGFAERFJgelOIpMUAApwFIBT1FADgKeopFFSKKAHKKkUU0CpVFACqKkRaRF5qVRQAoFSKtIoqRVoAVVqRVoValVaAEC1Iq0oWnqtAHa+D7C5aGC3sIbea9lH26Eyg+UJUPyeaewUFxjuWU9qXxr4nsNOtrlYYtQsdUvQ0s8+8r9qWMYbH8QiDAhRxk89Byzw7Ei+HpZNUtrm/sGlDQ2tocSLInV3bI2pjgDODz3rmNRm1nXI59Sm0xnmFi0n2iZyW3N/D+Qxj2rF6M9yDXs1bt/X9f0uG+GVgbnXb6cBiEAI39eW7+9ej3kFxpsTvBAWlf5vlXJz/n1Nc18JrRgLu9lHNzICp9VDMP517Np2gQagu6XIJ7jtXHWn72pnTguWx5WNe8S2zQImkieKbG4OS8i84OQCqjjnAzWnc6TfLfKJI4MFA5ngVhHuxkocgcjpnv616TJ4RMDbkuGwOhIB/XFUtQso4GWNnaVh69qh1U1ZIuNJp3bLfh7TYrnTPMnG+TZjkd65PW9FvxfCK3uDBbHlpxGXI9Bgfqa9F8P2pWz+6QBUc+kRXcjq2VI5zWak07luC2R5NoMfiyVbj7Qke2IMU8yJCJSAuAGTDJzu5JPGPeu30mK8msl+1KUmXDbGYMVP1HX610tr4feI7RI+P9+tKXQ4IYQcHdjOT61U582yJjDk3Z87fFvRb7S/F2m+JtKkeG4wH3qPuOnf8sZFei+FdUsPEWn2M0091qd/ISbcFNkSs3LWjn+6eozxjpTviHo76npjxQ486ISOoIzlQoLD8q4DRfEEvhHU7a1+0zWul3zeTcJECcHjDp6MOgI9a3pz0SZrR91trqe4MLWO3kjupStrCmL63hkx/Y4GCfKKjPJAGOmM1wXxUsizWd/IqLcMStwUXCSs48xXX1G0gH3B9a9B0u9W4js7iHdHZxKJLa9mcD+1OMLFKSAQ24ngg9K4j4oMyWNjC8bRu0ryNHI2ZIXI3PGx9AXQjHau2JjjP4bv/X9f5X1Tv5qVqNlqwVqMrVniFdlqNlqyy1Gy5oArMtRsKsMtRMtAEDLURFWGFROvegCBhUZFTkVEwoAhYVGRU7ComFAELCm4qRhTcUAIBUgFNUVIooAcoqUCmqKkUUAOUVIopqipUHegB6ripFFNUVKooAcoqVVpqCplWgBVWpAKRRUqrQAKtSKtCrUirQBtTtBZ6Bb20UlzpnnXETXVwX+W8Yg4VRjOFBHtkn0qrqVlaaf4G1Cf+3ZJDJbW8O0H96PvHB9Ac1owJJe2FpLFpVxdG3eC1j80hol/eFnZecjr0xxTvG8bp4S1K2bQoTO9yQs0BJRVCPh2bsRzxx71zy3Pepu9NW7Lt5HN+CYEsLPS0icNDLbh1OfX5iPzzXrvh+/iRPmYV4zFq8OnR6ZpMdu8c2mQgSMOUc99p7+/pXW2euxvZS3EUn3VJ2k8g46GuSpBsxjJJ2PSNS8SRxL5UIVpMflXMm/t57ofabyOO4Y/LE7AE15hpPjbUr24JUHLscqRz16VJqOsa08hIs8gH5d0fT8aFRs9SvbprRH0hoP2Q2ahnyCOuao39zZR3bRpe24mH/LHeN5H06141p/xL1vSdLaF9OeScHagGc49fwqW38Ya3dXXnrpOwnlSsRL478mr9npYn2qvc9fj12OyuVhuvlD/AHHPQ+31rQvtSjkjUqRtxXi+v+N720jjS+tmMcmQUC5I9D6/Q1v6D4lE+gxz3JKHcUH+1g9qycJRQ/aKTNmZWv8AXhArhEER3k88Hg8e44rzj4qaO9hc6RLpViXigvA55JO4t8m49gSP0962IPiJpug69LNqYlZLiNlVYU3soUjt3qHTdYt/FPi+UGeewsdQPlIrt/rlEOY2U9FYMc/WtqcHfU0pO6Os0W5udOv7e111bi+F+Bd2toi+Z9lkwAzgnoEJ5HToeMHOV8U4pRJZi5nSe5jLJLMg2rdEgHzQPbhCfUVp+IdNk8O+GRqkamSVYhdyXTOPJEyEB4wV/hlBbIHpmub8W6jBd2VpZxRLGkBEkCKQVhidc+WCCScHkknktwMCuuOjsLFpOi2un+f9eu/Y5BlqNlqwy1Gy1oeGV2Wo2WrDLUTCgCuy1Ewqyy1E60AVmFRsKnYVGwoArMMGo2FTuOKiIoAhIqJxU7Co2FAEBpu2nsKbigBFFSKKaKkQUAPAqVRTFqRRQA9RUyio0HNTKKAHqKlUUxRUyCgByrUyimKKlUUAPUVIopFFSKKAHKtSotIi1KBQBoaL5FxfWdne273FqbkSsqyMpUhTyADhug4NbGprHqWmp9h1ZntJL2EiylGxmaRWJjHrneBg8cVziAqQwJBHIIOCK3dMuLjWNXs7YT2ENwwiljllgYvvhGDlicbinpzWVSPU9TBV7p03/Xf+kYfiXRbf+y7uTQXB061ld7lrgYcS9SVbuB0I9q5iwvFW/CqzKrvkjPGa9Q1SK11W3gulibS5YmkWy0xWAN4o6EocZBJ/KvK9VsL22v5QYRDcgLJNbrz5LHOFx9OaytfQvER+39/9dfX5G9ZW2lzWksFwqvE0jbdw5GTz06Hvmus0HwzA8CASyzRjgbJDuUYwOvX1rzbSL+MMBIXO0hM8YJrp4PEF/wCH2V4i0sZ5GOTUNNMzpzjbU9ItfDdlGgZtRugCnzI0Skg+gqS70SMWgEDXCKwwXlOMdc4UfhiuLtfiyxZVe1JbPbkZ/wAmtM+LtS1+PfDbNHGvJZ+B7/jQ1ZGvNF7O5Q8Q6FZ6dYRWlsCqzSqs0xJZ37nLGq6TwwjCvmOFPkA6HpwPfio9R1uSW3a3uXRCkoZBu5Yc807wrpg1PUUkciSGI+YVB6kdM+39aFCyvIwlPmdkcFrnm3d3HdTGNovMZUlUZ8lgQDn8ciu58IQLpl9ZsyGJybaSSCchrdwwKfu2P3TkjFc1d2Itbi1d7KbTriSaZ0ilcGOQFgSD9c8V3OmWSjTrGJ5ruyaSzliW0vY98DGMk8nqB3yPSt7HbTjZWPQNJ0y3m8OxafdeGNQgtW1Dabf7SSGDHk8HlR+XWvM/Flq9prEsHlXcMKgeTHcrtZU6dOnUHp1rv9F1CCPRrzdqer2MImjuzJEu9CjgfKj913c9cjFYfxUtrf8AtVJ4dRkvGPVXXmJWAZRu7gncfbNXFoyxik6b9b9fLv6nAMuaiZassKidas8YrMuKjZasMKiYUAV2FRMKsMKicUAVnFRMKsOKhYUAQMKhYc1YYVE4oAgYVEwqdhUTCgCBxTKmYVHQA0VKo4qNetTKKAHrUqio1FSqKAJUHFSqKjUVKooAkUVMgqNBUyigCRRUqCmKKlUUAPUVMoqNBUyCgCRRUiimqKlUUAKoqzbJA80SXbSi18wGXy2wcdCR7gEmoVFbUPhi+l0e81OSJo4oYHeNCpLzNtOAB7nHNJ7F021JOO5uQu2orb6hqcUGoX93JJ9gniAdbJACFdscj1PoevSvNSBc+Lr7Tr65+03FzbtvmyP3kit/D7AHA+hrr/CGtXdlYacdW0uFL+yjNpLI+Q7AHgZ7cYyeea5T4VWll40+L2t3yW4TTrWCVYUXkICRGuPw3Gudx5tmevWnyR95WTMGbT7jQtS2NG3ks2Sw4BX69sVbj1lPNZJEUhedrEZCnt+NekeKvCkltM9rcxBgeUJHyyD1H+HavN9W8Iyhj9klKt/cfjn2P+NTGonpLRnHKm170NUdBp/iDTxdRxLYW2dpBITgL/8AWrS1TxLB5awvFHFEwO9Iz/rD9Pcc1wNto2ryTFHtLtnPZc4P0xXVaV4Lu71oZ7uI2bg/OS25n/w9KbUFq2JOb0SKemadLq968TxySDbtRScMq54yfSvW/DPh7yIYrWFV86UCPI6D/PJqpomgW2m24McaxqOWfufxr0HwTYGS3fU2TEcny25I5Ze7/Q9B6jJ71kputPkjsa8iox5nufPuq2rr9lsje/aBA08TWtzFtkfYTuUH1Axg+9drpV5HFpOnhNbkt0tr1oJFubXd99iQpJ5HGRnOOa2viz4VvbrVLa6t9KtrqyO4zSyMVMJYYbGPUc59ayvC09xrGky6VFqluLj91NFb3cO+WLaMMDnAPK5B967WrM7KVSM4qX37afg/yNDSYbmNptOge3tnulmgTy4xLasyyFgSo+4+0n8vat3xpGNQ8MJpdwsEmpuqMzxrgBl+7/h+NZE+q22ivNFarD9vnIa5miXAMmMEgev+NNs5Jrh8sxec/js/+vSvbRD9l7XWe35/8A8udSCQQQRwRUTCun8ceHZvD+sbZIysd0guI/bPUfUH+dc0wqzwpKzaK7ionFWHFQsKCSuwqJhVhhULCgCBxUDCrLioHFAEDiomFTsKiYUAV2FRMKmcc1EwoAiYVHtqVqjoAatTColFSigCRalUZNRrUqDmgCVamUcVEtTLQBIgqdBUKVOlAEiiplqJBUyUASKKnQVEoqZaAJEFTRI0jqiKWZjgKBkk0yNSxAAJJOABXd+AfD+67N3MqkoMKeuCf/rZpXNIU3JN9EXfC/g0WEa3l/EslyeVQjIi/wATXTTOqQM0kgjRSrM7dhuGa00iAOw9KS90+VdPuXit0mfZ+7jZsBiCCMn07/hVPYUF7yPKPiJpNzZxNbaIWkudSBjhTr5Sngs3pgHg9zj3rT+C/wAPV8EWl4zDM9xsDtjk4z/U12mhaBa29/cqv7942JeZjnJJJAHoAOg7VsCAQOHC4RyeBWahZ6HTXxDnoyy9jb39sYLuFJoz1VxkVz2o/C3RtTk2wzXNtIecqQ4H58/rXVQYKAqQRU1kc3Eh9ABTlCMt0c0ako7M4CD4Uarpz4ttSsrlO3mK0bfpkVo2Xw41NpN089mg9mZv6V3wzU8ZqPqtN7mqxVRHM2vw9seDqE8l2o5MIGyNvr3I9s10bRBFCqoCgYAAwAKsVFLKEyBy38q2hTjBWijKdSU9ZMia2jm+V+4xz0/GuO1DwZDY/aJ9HjitZ5lYK+3ITJycemfb8q7eNSIlznJOc1Bt2Z7gHkVdghNxd0fP2p6NqmhXqLdW7gucLMuWQ+yn1/Wuz8O/Y9HiS5uij3BGY4t3f1J7fU8CvTLnT4buNkdEZWHIYZBriNV8BR2rS3ekl4Z87mjL5SQd15+7/LtWXs7ao9H697X3amn9fgc946sT4kspJhsN3CzGMrFhnZSVaI7c5+XaQen515Mwr2y3lvNNUR3qtZMAEV33KiYXKlmDbHB2bScDqK858c6JFp2o/a7NUFldkvGEkDqhycrkAD3x+poT7meLpJrngcowqFhVhqgcUzzyBhUTipnFRMKAIHFQuKnaoXoAgaomqZqhegCFxULVO9QtQBE1NpzU2gCNKlWok61KtAEq1MlQrUydaAJlqVaiWpVoAmSpkqFOlTp0FAEqVMlQpUyUATJU6AsQACSTgAd6dpenzaneR2sOAz9Wboo7k16Fonha10K1k1eUtJNDhId6jBkK8kdcbTn3BB5IpN2NqVCVTY5+w0r7EMzKBOOGyfuk9vw5/KvVvCmmC10qHI+Z18xvx6fpiuEsbVr67ht1X5pWBOf9o4H6ZP4165p9sohCAYHb6DoKmlq3JnoY2Ko040olOaIxEEjGan8QpE3hu+85pEjMDbjGMtjjoPWrV7Bvh4HINQ6tJdNotymnkC72ARlsYByPX2zW0tmedS+OPqR6JZrBbXkgiMW6U4Q/wjsKn1CEx2duw7HmrVnb+RZPEZWlJcsXbq2Tn+tO1CPzNOK91GRU2Jm7ybI0txJZpOnyv1JHepdHt2e8u0eQHYE5I9c0acwOnrnpzTtFLfb74ngtsP4c07EGqLI/31pHhMKltwP4VOKjujiBvwpgVnkJHLflxSKu4gDvUWc1atY/4z+FMCRxgAVCy5Y+4qdjk1G4wRQBEh+UeooeMNlSBzTwoDEfjRIMJkdRQBnm2Cq38YHBRhkVz/iXwnDr+m3UGFh875iQgPzgAK3PTGB0xnFdWw5Dj+LrVOUtNMkAJAJ+bHpSZUZOOx83a/4O1nw9ue7tWa3Bx9oi+ZPxPb8a596+vLuwintwmwAEYPGcj3HcV5T44+D1vdFrnQRHaXfV7YnEUnuP7h9un0pOJJ4k9RNVq8tprO4ltriNopomKOjDlWHUGqrVIELVC1TNULUAQN1qJutTNULUAQvUTVK9RNQBC1NpzU2gCNKlWokqVaAJVqZOtQrUqHmgCdalWoVqZaAJkqZKgSp0oAmSpkBJAAJPoKhQ12/ww8ODWNYN9Om63siGAPRpD90fh1/KgDqvD/hWHw7YW1xLGDqEgWV2fHyngqgyR0PYcsRjODWj4122dnp+kwuzKqAAn3OBx2wM8dq6m7sJJf7PuYGxJFKN2em0HBz68H9RXE+OpxN4iZc8RA/ouP5msqjsj18t96UV2uyfwRZ+fq7zEHCIzLntnCj9M16bGmzAHauS+HloBZyTMOcqufoM/wBa7FeXrWirROfMp81ZrsLcKHj3Dr0IrA8VakmhaMb15fLxInPfGScAd+mMV0mwhuSPpXmvxtdo7PS4gSI1keRj16KAB+porS5YOSFltBV8TCm9mzrvBmsNrvhyHUHj8tpi525zt+YjH6VtTjNqfQisXwLY/YfCGnRFPLJhDlfTdz/Wt+RN1qR7UQu4q5hilFVpqG13b7yvpSZtWGM4OcVLpisNSunIwHjjI/AkVHobcMnpWggX+0ZWHXykB/M1aMC2KiuhugYVIKbKPkNMCrFblmAPSrTEKAopidR9KU8tQAU1+eadSdaAGnqDSkZGPWkA4IpaAIE6tGeo6VAkeL/pxtNT3IMbLMOxwalWMM4kH92kBJkKjyN91RWfOjgbesj9T7mrrZkeOHsP3jf0pJFCksBk9B9aaA8d+NXgy2OnHX7OILc27Kt0VH+sQ8bj7g459DXiT19halplve2MlpdRiWG4UpIrfxKeDXyx418MzeEtfudMl3NGp3wSH+OMng/XsfcVMl1A55qhapWqF6kCFqibrUrVE1AEL1E1SvULUARNTac1NoAiWphUC9amWgCValQ81CpqVaAJ1qZTUCmplNAEyVOlV0NTKaAJ1OOa+gPh1oJ0nwzaoyYlnXz5fXc3I/IYFeJeFtHk17XbOwjQsryBpSB92MHLE/h/OvprTIx9nLKOFbp6CgBvlP5DxAHen7xQO47gfhz+Feaa4PP8Q6hI2DhWwP8AgX+FeszxmNUuI+qnNec+MLFbTxOzAERXiblIHGGGP5isq6909bKJpVWn2Ot+HkZk0DzMctI36YH9K6GNxEzLwWrnPh1dbdDaD+JZX/AZrcOY70L/AHx+tbU/hRx43+PP1Lluhkm3Nziub1/wkfFGuObwMLGGFY8d3Odxx7dOa662h8tSx6ntWXYXNzqN3PNK0PkwyMkQiVxkHuxbgnHpxzTmk9GTQqTptzg7NF0RrHCEUYVQAAOwqULmDHrTWGRipQOAKo5zP0kbbqZPStCJSL+U+sa/zNU7RfL1SQeozWhEuZ5HPfAqQLAFNlH7pvpThSTcROfai4EMRz8w9BR/FTLM5t1b2p461QCmkpTQKAEHBpcUoFOA4oAY0XmRspHUU2xJa3weo4qfohx6VFCmInA70gEhXCtKRzKePYDgf596UJvlx2T+dSHl8jAVRgU1/wB0gUH53P8A+s0ICvcHe2R0zx+FcB8YPBf/AAlPh43lpHu1CyBmiwOZF/jT8QMj3HvXohj/ACAxUZjJgPqjZpgfFLmoXruPi74dg8OeMp0tFCW14gu40HRNxIYD23An8a4VzWYEbVE1SMaiagCJzULVK55qJjQBG1NyKU1HQBGKmU8VCKkQ0ATKalU1CKkWgCdDxUyGq6GplNAE6mplPFV1NSqeOeR396APefhZ4Zj0nR4rmRB9rvlErk9VQ/dX8ufqa9G0cYaaI9SOKy7CS3vLDT76y2+Q8CbdvTbtG38ulbSxbTHdRj6j+YpoRdgRZImhcc9MVzPi/QDqmjyCNWN7p+ZodvV16sv6ce9dU670WePqOT7iluORFcp1XhvcUSimrM1o1HSmpx3R5p4D8QWdzOY7eQk5yysCDhuQcfXI/Cu/uV8qeCQj5j0FeO+MrKbwB40F3Zw/6LdfvoQDww3ZZPqD0+or0hPFFlqy2c0UvLpu2nqOnas6M9HF7o9PMsNrGvS1jJX/AMzo7+4MGlTzfvMiNiPLQu2egwB161DpFubXTLeErtKqBt/ujsPyx+NRas0M1nb2jqsq3EqIUPQgZY9PQLV8HgVr1PMbtC3ceBmpAOaYh5qUdaozKjLt1NW9Uq8vDgeoJ/lVd1zdK3oKtKAWU+gNIB4qK9fZaSt6KamxVPVzt0+X3GKkYtoNtnH/ALop69KbAf8ARIx/sindBViFpQMmkFOWgBQKcBRSigA6gimA7YSfenHhvY1DdsywKqDLs4Cjtn39qTAVJDJMVHCR/fPqfSiEmZmmPQ/Kn09aiMYAW0jJP8Ujd/f8TVwAKAAPYD0oQDdvaq7bpZDDHwg++39KnlYgCNP9Y3/jo9aVIlhiKj06+tFwPnH9oezaLxJp14P9XLamIegKOcj/AMeFeSMa99/aGsPN8P2d8BzbXm3P+zIp/qor5/Y1MtwGMaiY4p7GonNICNjUTGpGNRMaAGMaj3U5zTKAI1NSKaiU1IpoAnBqRTUKmpFNAEymplNV1NSoaALCmp4I3nlSKJS8kjBVUdWJ4AqqprsvhXpi6r40slk4jtw1wx9No4/UigD3P4eaRJoehW+j3MpmMcZZjngEnJA9gTxXZ2sZhzG53Ie9ZVlam2ffGgIwRnviti1YTrjG2Re3rTET2o8pzEenVamSMLuiP3DyKYYy8YYcOp4qaNhIoboR19qpDOW8caNBqfh+UXEKSyWLefHuGeB1/MZ/IV5lqln/AGX4itbK1d41UkxZPBRgGGD24Ne36jai5t5IicCVGiJ9MjAP51xOpeGYrq90d7gNHdR2wRiBkZUAc1lOnd3R6WExfJDkk9NS9oxmuLsSSsriJTgkkkEkdO3QV0amsvT7QWSmMMGOckgYrQRuas4KkrvQsIanU5FVkPNTK1WQPAy2amXqtQqakU9PrQBNVLWRnT5fpVwGoNRTzLKZf9k1DGRWWZLSM5/hGKnC+tVtKbdp8J9VH8qtg07iFVR2pwAFIKWqAcMUoxTaKloYpQGql9ceQyKOWPIHqauZFZUgW51o9SIIwD6AnmgC9bxCFCWOWb5mPqakLbV3EZJ6D1qPeHbr8i9T61IDzvYYPYegp2ELHHtyWOXbqaS4YRxEk4FNkuBEMsagKPcsHl4UdE/xosB5p8bYBceAtQODmMxTD8JAP5GvmRjX1R8XsSeCfEMh+6ttsX8GWvlVzzSkAxjUTHmnueKhJqQGsaiJp7Go2NADHNMpWNMzQBGDUgNRA1IpoAlQ1KDUANSqaAJlNSKahU1IpoAsKa9G+CcDS+I72UcLHZnLehLrj+RrzVGxXrHwOjBbVXALOxijAHX+I0Aez2WoyoNpJ/pW7aTK8YlBwQcGuaitXjPzMFPpWzpHypLH5gYkg88YFNAdCjK8eezenamkiOQAsu5uoz198VHApjULnKNx/umuJ1+4bT9YkE5kPmHej55x6A+xpTnyq5rSp+0djsZ9Vs0ka3knAc8HjhT7ntVDUiH1OwcYOYpWyP8AgI/rXBXWs3MN408jLIHPzZ5P1PrwOa1NN8QHfHHIVeMZKMBjYGxkD24FZRxCbszonhHGN0dOH/etz3qdXrLhuA53Z4J4q7HJnvWydziaL6NkVMpqpE9WFaqQiwuMVJnAH1qAGpeq/lTGSq9OcCRGX1GKh5oYlRn05qAKelM0dhEvHy5H5EiriyM3pVHTT/oSe5Y/mxq2TsHvVICbefal8xh6VTe8SM45Y+1SLcoybhmmBYEjegpwY+1VhMD7U9ZR60ATNJtUnA4rEsr5BFLcPwXckkdSegH8hVzU7sW9nLJnoprC0qMBooQdwjGSf9o9T/Ope4G/atJJ+9mG3+7GP4fr6mpWnBb1x0A7mq0s5VRFHy7fpVm1gES5Y7m9aYDo4SW8yXluw7LSzSeWjN6DNSMeKp3T7hsH8RxTA4f4qof+Fb67nr9myf8Avpa+UWPJr61+LAH/AArnXh0ItD/MV8jyNzipkA1zUTGnMajY1IDSajc05jUTGgBpNN3UMabmgBgpwNRqc08GgCUGpFOKhU08GgCcGpFNQK1SA0ATqa9U+A989pqeqEEbRDG3PY5I/kTXlCtXoPwavBD4gvIG/wCW1qSB6lWB/qaAPoi31JZgNyo2a0bRhHKJlUYIII9RXPaZA90SVJWNerAfoK6SGJ44wiqkSqOrnmmBchcAFefL9fT2rmPE1hG9zKlwrulwNysDyG9j2x1/GukgR4nVmuAwbjbtPNUvFlpNc6SRbRg3Mbh4lY43diue2Qf5VNSN4m1CfLI4K2tBBIIbhgZQMq/Zh/jSPJDp7NE2AvLY/u//AFq6IeDrxoVaby/OYZI8zmM+xxWXdeCNWnmZ5Gt8g5U+YOfrXA6U10PR9tTbfvENhriQOsErKqMMo2eBXTW16GxzXNjwnq/9nzRGws3lbKoTOAuD68fyqx4V8OeJbLTkg1VIHmj4DpMG3L2J9666PPb3kcOI5L+6zr7ecEjnrV9axI7C/TafLHByfnFbKbgg3DBrdHKyx/DmpYzuQ+1Qo2UOelPt2A3AnFUMsbaSbAhc+gp3mxgZ3r+dQzSpLG6I2WIqQKulpm3THpVidWPyj86SyH2eFY2GWA6ipWfcc4prYCoVWFcBRnuagN3BH/rJAPasHxxrN1obW8otp7m1m3AiF1VlYc459R6ehriF8YzTlpJdLuET+GMTKc/U1nKoovVmkacpK6R6kb+A/wCrfNOS8Unlq8xt/F19OyJFYJAGOP3kuT+gq6dV1qQMqNaJ+DGs3iILqaLDTZ1HivVkgsCQwwGUn6ZGak0jNtaIxy0kgGB3JryTW38RHULeK41KN7aaVUdPK6KWAPOa9l0yH92JSvQbUX0FVCam7oipTcNGXbUFZdrfM7csa1EGBWfp1vLueWVCpY8A+laOQBzWyMhHOFqmBvlB/u1ZlIKHB5qrlkiGFJZv0pgch8YyB8ONdK9fsxB/76WvkRjzX1n8X5c+ANajz1tmz+YNfJLGpkAjGoyaUmmMakBrNUZNKTTGNADWNJkUhNJmgCMGng1FT1PagCUGnqaiBpwNAEympFaoQaepoAnBrp/hxdfZ/GWm5bAkdoj7hlPH54rlVOa0vD9wbbXdOmBxsuojn/gYoA+wrdhpmkwLGP30i5/E1eitTGqCZt0mMtk8CslpXn1CJUOBFz9MdK1Y8n53JOOee59aaEaUcyxlcZZmPU+lMhR7y9aVyfLi4A9W/wDrVV81uCBl2OFHqa049tpAFzkjqfU+tUAyRwGI4JqlPknnvSNITKWz1qQjzACKLgJGvy4NO3kcAUoGKUAYpgN8w5xQ5OKeFGaVlBFACwP8m004rjpUUXBqagBEzmnhQZF9yKZnBpUb94v1FAF7ylo8pfSl3UhegZg+NrKGbw1eFk3NEBInswIGf1NeUQW0gk8o4AznivYfErZ0DUOAcQscfTmvOtK23Erysox0rgxS95HfhX7jKn2J0t95iyAe46DvU3mxRIqsDGwAIBPaukjtlkAA59qgPh9dYudsyj7LEeWHBc+gPp6mslSb0Rq6yjuYOm+H28TahG7b1soGDu/99gfug/zr0yBRCAAOnpUNtax20KQwoscaDCqowAKl2mu+lSVNWPPq1XUdyx9olx8qgD1pC8hHJoiBUe1OfnAHetTMhLO2QGNIoccMSfrVkAKMYxTGFAHAfFvP/CE6yP8Ap1k/lXyWx5r6z+MDhPBWsk9rOT9cCvkljSmJCE4qNmzSs1Rk1AwJqMmlJppNACGkyPWkZsUygBKUUlIzKilmOAOSaAJVOacDWNLqMsjERkovbHWmrdXSEHzJPX5u/wCdAG8DTwaz7K/Fx8jgLIPToaug0ATK1SxzGJlkU8oQw+o5quDTgaAPsnw3cpd2pvSQQ8cbg+u5c1tRS+cwHbvXmfwj18ap4JtEL5lgAgf6x8fy2131vMNrfNjc2OOuO9MDWtyA5uG6DKxj+Zq1NJvhLZrO84EDPAA6egqw0uYcA5DdKYhkZyCT2p0cuxvrTF4THeoz2NAF4MDTgaprJxT1m9KdwLR4pC9RrcL0NPBQ9CKYDgwFOaYAcVHgetN8onqRQA4zUiyEsMeopREKesYyKALXmk9qN5p4jpfLoGZ2uDzNGv0wTm3kGP8AgJrzLw3bapdKgWGOKD++75Y/gK9Zu4Q1rMrYIKMD+Rri9Omgs40iiVURRwBWc6ak7s0hVcFZGrYaWsKgyStK3vwPyrVSzi8sCH5ABjaOgrMi1GDoXAq2l55eGX5lPpVRio7ESk5blj7MyjPJ9waeo2jmmR3cczYSULJ3TOCfpTjcrGf34cD12VRJKH2igNjnPWo1aObmGRX9s80ZZPvxt+FAyQc96RuBTRJEejbT706QgL1zQB5v8bJhF4B1pz3gCD8XUV8nM3NfTf7Ql+LfwJPFnDXNxDEB6/NuP/oNfMBNTMBSaYTQTTCakAJppOKCcUwnNACE0lFFABVPU3IiVR/Eefwq5VTU1Btw3dWoA6fwreeG/D/gufWbnR9H8Q6/Pqq2UOn6i7ssNuItxlESMpYs5C5JwMYr1n4keIfF8V94Ws/if8PPBs+n38y28DwtKHtgzIJEDrJ+7YKQe449q4n4VfDax+Jnw+1m18yHTdQ0vVYJ11EW4lkkikiKmE8qQoZdw56npXRWGnXni74vp4L+Imr3vi2w0nTJntt7fZQG8pX3EJkk44ySSeCemCAeN+K9Nt/DvjLWNMsZmmttP1Ce3gkJBLxpIVUkjrkAc1aBrn4kVrlUUFUL4A64GeBW8DkZoAkBp4NRA0oNAHr3wKvXjTVYS/yB4nC+hIYZ/QV7HY36xuxfJ9K+W/CPie78L6oLi2UOsy+VLGTgMCePoQa940XUpdRRBJ8pIHINNCZ3a6qjnLMAPQ0q62oURh12joc1yV3bMrlfOb6jisyZZYm4mY1YXPRl1uBR80i/iahl8T2UfWVfwOa85F3KhG47x6GrkM0c4+aAD6GluB2MnjKwT+P9Krt4805Osyj8a5lrO3kGTEKgk0y26+WKdhXOoPxE0tTg3KUo+I+jjhrsD6AmuObTLf8AuCmHTLf+7QFztx8QdNf7t7F+JxUqeO7Y/duYT/wMVwX9l25PIqpqSRWKgRwozEcFugoC56aPHEOMmWMD13io3+ItlH/y9Q5Ho2a8kjtmvsNPKTz91RgflWhDpMarkOfyoA9LPxVs84EgY+2TT1+Jiyf6tCfwNeeQWEecHn8K0IbVI/u0Bc9HtPEV7qUWYpLIo4wQZDuAPtioV0UAEqc49DXCjMfKMVPtU8Or3sB+S4kGP9o07Bc7uHSJQAfKz/vGpW0i8dSglEan+FOK42LxdqsQH7/d/vDNWk8eamvVYm/ClYdzek8M3fWORc9etWra513TQElh+1wjtnJFc2PiFqA48iL8zTZPiHfgcW8X5miwHZxmw1UEhJLWcdRjaQaUrrFjzDJHeRj+FuGrz2b4gXxfcYIyfrToviRqgOFih/HJp2A78a+q/Ld2NxA3c7Mj8xT5dQjmT90G2+pGK5Cz8a6leFVkS3wfRT/jW3FK0qbm6n0osFzxD9pLWxJNpOjq3I33Ug9P4V/9mrxAmum+JOt3Gu+NtWurjjy52t41ByFSM7QP0J/GuXrOT1GBNNJoNMJzSAGOabRRQAUUUUAf/9k=";
+const CEO_IMG=(sz)=>`<img src="${CEO_PHOTO}" style="width:${sz};height:${sz};border-radius:50%;object-fit:cover;object-position:center 30%;display:block">`;
 
 /* ---------- helpers ---------- */
 const $=(s,r=document)=>r.querySelector(s);
@@ -385,7 +414,7 @@ const h=html=>{const t=document.createElement('template');t.innerHTML=html.trim(
 const buzz=(p=8)=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const screen=$('#screen');
-const state={locked:true,openApp:null,air:false,opens:0,s1:false,callDone:false,callFired:false,s3:false,finalDone:false,missed:9};
+const state={locked:true,openApp:null,air:false,opens:0,s1:false,callDone:false,callFired:false,s3:false,finalDone:false,missed:'∞'};
 
 /* ---------- icons ---------- */
 const svg=(vb,inner)=>`<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
@@ -415,6 +444,8 @@ const ICONS={
   photos:()=>svg('0 0 60 60',`<rect width="60" height="60" fill="#fff"/><g transform="translate(30 30)">${['#fbb12c','#f6d14a','#a7d156','#5bc8a8','#56a8f0','#8a7ff0','#d97be3','#f46c6c'].map((c,k)=>`<ellipse cx="0" cy="-11" rx="6.2" ry="11" fill="${c}" opacity=".85" transform="rotate(${k*45})"/>`).join('')}</g>`),
   files:()=>svg('0 0 60 60',`<rect width="60" height="60" fill="#fff"/><path d="M10 18a3 3 0 0 1 3-3h11l4 4h19a3 3 0 0 1 3 3v21a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#1a8cff"/><path d="M10 24h40v19a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#3ba3ff"/>`),
   weather:()=>{const [i,d]=G('#3e9bf6','#1667dd');const [j,e]=G('#ffe15a','#ffb21a');return svg('0 0 60 60',`${d}${e}<rect width="60" height="60" fill="url(#${i})"/><circle cx="38" cy="22" r="9" fill="url(#${j})"/><path d="M17 42a8 8 0 0 1 1-15.9A10 10 0 0 1 37 28a7 7 0 0 1 1 14z" fill="#fff"/>`)},
+  health:()=>svg('0 0 60 60',`<rect width="60" height="60" fill="#fff"/><path d="M30 47S11 35 11 22a9.5 9.5 0 0 1 19-3 9.5 9.5 0 0 1 19 3c0 13-19 25-19 25z" fill="#ff2d55"/>`),
+  messages:()=>{const [i,d]=G('#6ef584','#1fbf3a');return svg('0 0 60 60',`${d}<rect width="60" height="60" fill="url(#${i})"/><ellipse cx="30" cy="28" rx="19" ry="15.5" fill="#fff"/><path d="M16 37q-1 7-6 9 9 0 13-5z" fill="#fff"/>`)},
   reminders:()=>svg('0 0 60 60',`<rect width="60" height="60" fill="#fff"/>${[['#0a84ff',17],['#ff3b30',30],['#ff9f0a',43]].map(([c,y])=>`<circle cx="15" cy="${y}" r="4.5" fill="${c}"/><circle cx="15" cy="${y}" r="2" fill="#fff"/><line x1="25" y1="${y}" x2="50" y2="${y}" stroke="#d0d0d4" stroke-width="2"/>`).join('')}`)
 };
 const APPS={calendar:'Calendar',clock:'Clock',notes:'Notes',photos:'Photos',files:'Files',weather:'Weather',settings:'Settings',phone:'Phone',safari:'Safari',whatsapp:'WhatsApp',mail:'Mail'};
@@ -427,57 +458,56 @@ const CHATS=[
    msgs:[{sys:ENC},{d:'Today'},
     {out:1,t:'Good morning.',time:'8:02 AM'},
     {in:1,t:'Good morning!',time:'8:03 AM'},
-    {out:1,t:'Any updates?',time:'8:05 AM'},
-    {in:1,t:'Yes, I have a few updates for you.',time:'8:06 AM'},
+    {out:1,t:'وش صار على المشاريع ؟ فيه تحديث ؟',time:'8:05 AM'},
+    {in:1,t:'ايوه عندي',time:'8:06 AM'},
     {out:1,t:'Go ahead.',time:'8:06 AM'},
-    {in:1,t:'Starting with <b>Automation</b>.',time:'8:07 AM'},
-    {out:1,t:'What’s the status?',time:'8:09 AM'},
-    {in:1,t:'An email has been sent requesting clarification on the outstanding points. We’re awaiting their response.',time:'8:11 AM'},
+    {in:1,t:'ارسلت ايميلات تاكيد waiting for response بخصوص:<br>١- موضوع تقرير المراجعة الشاملة ل Salesforce with touch points<br>٢- الداش بورد داتا Salesforce وعدم حسبة تجديد العقود كـ عقد جديد<br>٣- الاوتوميشن وتصور تحسينات النظام<br>٤- متابعة ال challenges',time:'8:08 AM'},
+    {out:1,t:'When I can get the response?',time:'8:10 AM'},
+    {in:1,t:'أمم بشوف معهم الان',time:'8:11 AM'},
     {out:1,t:'Okay. Strategy?',time:'9:20 AM'},
     {in:1,t:'I’ve updated the comparison file to include the new consulting firm.',time:'9:24 AM'},
-    {out:1,t:'Good.',time:'9:25 AM'},
-    {in:1,t:'Just need your direction on when you’d like me to share the updated materials.',time:'9:26 AM'},
-    {out:1,t:'What about the comprehensive report?',time:'11:02 AM'},
-    {in:1,t:'A second email has been sent requesting further clarification on the report you requested.',time:'11:05 AM'},
-    {out:1,t:'Salesforce?',time:'1:14 PM'},
-    {in:1,t:'A follow-up email has been sent regarding the dashboard figures, particularly renewals being counted as new contracts.',time:'1:18 PM'},
-    {out:1,t:'And the policies?',time:'2:40 PM'},
-    {in:1,t:'I’ve completed reviewing them. We’ll schedule a meeting to discuss and finalize the remaining points.',time:'2:43 PM'},
-    {out:1,t:'Anything else?',time:'4:20 PM'},
-    {in:1,t:'That’s Part 1. 👑',time:'4:21 PM'},
+    {out:1,t:'بيض الله وجهك',time:'9:25 AM'},
+    {in:1,t:'بس احتاج تاكيد منك متى ارسل المتيريال للجنة ؟',time:'9:26 AM'},
+    {out:1,t:'اخلص اجتماع ونجلس عليها',time:'9:31 AM'},
+    {in:1,t:'اوكي',time:'9:31 AM'},
+    {out:1,voice:27,time:'2:40 PM'},
+    {in:1,t:'بكلمهم علشان نحدد وقت يعرضون كل ال new enhancement on Salesforce',time:'2:43 PM'},
+    {out:1,t:'بيض الله وجهك',time:'2:44 PM'},
+    {in:1,t:'That’s Part 1 😁',time:'4:20 PM'},
     {out:1,t:'Part 1?',time:'4:21 PM'},
-    {in:1,t:'Part 2 is coming once everyone replies. 😂',time:'4:22 PM'},
-    {out:1,t:'😂',time:'4:22 PM'},
-    {in:1,t:'Stay tuned. 🎬',time:'4:32 PM'}]},
-  {id:'it',name:'Shared Services – IT',av:()=>AV.initials('IT','#5e9cff','#2c5cc5'),unread:2,time:'3:58 PM',sub:'last seen today at 3:58 PM',preview:'Clarification requested',
+    {in:1,t:'Part 2 is coming once everyone replies we are fighting 🤣',time:'4:22 PM'},
+    {out:1,t:'please complete the pending items , we don’t have time 🙏',time:'4:25 PM'},
+    {in:1,t:'ابشر',time:'4:26 PM'},
+    {out:1,t:'🙏',time:'4:32 PM'}]},
+  {id:'it',name:'Abo Omar',av:()=>AV.initials('AO','#5e9cff','#2c5cc5'),unread:2,time:'3:58 PM',sub:'last seen today at 3:58 PM',preview:'Clarification requested',
    msgs:[{sys:ENC},{d:'Today'},
     {out:1,t:'Any updates?',time:'3:40 PM'},
     {in:1,t:'We’re working on it.',time:'3:41 PM'},
     {out:1,t:'Expected completion date?',time:'3:45 PM'},
-    {in:1,t:'We will confirm shortly.',time:'3:52 PM'},
+    {in:1,t:'ابشر بشوفهم ونعطيك خبر',time:'3:52 PM'},
     {out:1,t:'Please provide a specific date.',time:'3:53 PM'},
     {in:1,t:'Noted.',time:'3:57 PM'},
-    {out:1,t:'Noted is not a date. 🙂',time:'3:58 PM'}]},
-  {id:'excom',name:'Executive Committee',av:()=>AV.group('#2d2a4a','#a79bff'),group:true,unread:3,time:'3:15 PM',sub:'Board Secretary, CFO, COO, You',preview:'Pending approval',
+    {out:1,t:'Noted is not a date.',time:'3:58 PM'}]},
+  {id:'alia',name:'Abo Alia',av:()=>AV.initials('AA','#e0b44c','#a0711a'),unread:1,time:'3:15 PM',sub:'last seen today at 3:15 PM',preview:'Money',
    msgs:[{sys:ENC},{d:'Today'},
-    {in:1,from:{name:'Board Secretary',color:'#53bdeb'},t:'Dear all, the agenda for Thursday has been shared.',time:'2:58 PM'},
-    {in:1,from:{name:'COO',color:'#f7a072'},t:'Item 4 needs a decision before Thursday.',time:'3:05 PM'},
-    {out:1,t:'What is item 4?',time:'3:09 PM'},
-    {in:1,from:{name:'Board Secretary',color:'#53bdeb'},t:'Approval of the pending items. 🙂',time:'3:12 PM'},
-    {in:1,from:{name:'CFO',color:'#4ade80'},t:'Pending approval',time:'3:15 PM'}]},
-  {id:'sf',name:'Salesforce Support',av:()=>AV.initials('SF','#30b4f0','#0a6bc9'),unread:1,time:'2:10 PM',sub:'business account',preview:'Dashboard figures',
-   msgs:[{sys:ENC},{d:'Today'},
-    {in:1,t:'Hello! We received the follow-up regarding the dashboard figures.',time:'1:50 PM'},
-    {out:1,t:'Renewals are showing as new contracts.',time:'1:55 PM'},
-    {in:1,t:'Thank you. We’re validating the logic with the team and will share the corrected figures.',time:'2:08 PM'},
-    {in:1,t:'Dashboard figures',time:'2:10 PM'}]},
-  {id:'fin',name:'Finance',av:()=>AV.initials('FN','#3ecf8e','#16865a'),unread:1,time:'12:40 PM',sub:'last seen today at 12:40 PM',preview:'Awaiting confirmation',
+    {in:1,t:'طال عمرك عندي لك خبر يفتح النفس',time:'2:50 PM'},
+    {out:1,t:'قروش؟',time:'2:51 PM'},
+    {in:1,t:'لا تستعجل 😂',time:'2:52 PM'},
+    {in:1,t:'عندنا عميل كبير جدًا',time:'2:52 PM'},
+    {out:1,t:'ممتاز، كم قيمة العقد؟',time:'2:55 PM'},
+    {in:1,t:'للحين نتفاوض',time:'2:58 PM'},
+    {in:1,t:'إن شاء الله قريب يوقع',time:'2:58 PM'},
+    {out:1,t:'ومتى يدفع؟',time:'3:01 PM'},
+    {in:1,t:'طال عمرك خلّه يوقع أول 😭',time:'3:05 PM'},
+    {out:1,t:'أنت تبيع ولا تسولف؟ 😂',time:'3:10 PM'},
+    {in:1,t:'سم طال عمرك',time:'3:15 PM'}]},
+  {id:'fin',name:'Roy',av:()=>AV.initials('R','#3ecf8e','#16865a'),unread:1,time:'12:40 PM',sub:'last seen today at 12:40 PM',preview:'Awaiting confirmation',
    msgs:[{sys:ENC},{d:'Today'},
     {out:1,t:'Are the numbers final?',time:'12:30 PM'},
     {in:1,t:'Almost. One last check.',time:'12:36 PM'},
     {out:1,t:'From whom?',time:'12:37 PM'},
     {in:1,t:'Awaiting confirmation',time:'12:40 PM'}]},
-  {id:'office',name:'CEO Office',av:()=>AV.initials('CO','#ff9f0a','#c75b00'),unread:1,time:'11:30 AM',sub:'last seen today at 11:30 AM',preview:'Meeting to be scheduled',
+  {id:'office',name:'CEO Office Manager',av:()=>AV.initials('CO','#ff9f0a','#c75b00'),unread:1,time:'11:30 AM',sub:'last seen today at 11:30 AM',preview:'Meeting to be scheduled',
    msgs:[{sys:ENC},{d:'Today'},
     {in:1,t:'Your calendar is fully booked today.',time:'11:20 AM'},
     {out:1,t:'Find me 15 minutes.',time:'11:22 AM'},
@@ -485,28 +515,26 @@ const CHATS=[
     {in:1,t:'Meeting to be scheduled',time:'11:30 AM'}]}
 ];
 
-const WIDGET={title:'CEO’s To-Do List',items:[['Ask for updates',1],['Review pending items',1],['Confirm next steps',0],['Approve pending decisions',0],['No more meetings today',0]],foot:'Probably tomorrow. 😂'};
+const WIDGET={title:'CEO’s To-Do List',items:[['Ask for updates — <bdi>وش صار ؟</bdi>',1],['Morning tour',1],['Confirm next steps',0],['Approve pending decisions',0],['No more meetings today (impossible)',0]],foot:'Probably tomorrow.'};
 const NOTES=[
   {id:'todo',sec:'Pinned',title:WIDGET.title,time:'7:45 AM',date:'Today at 7:45 AM',checks:WIDGET.items,foot:WIDGET.foot},
   {id:'prio',sec:'Today',title:'Today’s Priorities',time:'8:00 AM',date:'Today at 8:00 AM',
-   checks:[['Review project updates',1],['Follow up on pending items',1],['Confirm strategy next steps',0],['Review comprehensive report',0],['Finalize policies',0],['Finish meetings on time',0]]},
+   checks:[['Review project updates',1],['Follow up on pending items',1],['Finalize policies',0],['Finish meetings on time <bdi>(نتمنى)</bdi>',0]]},
   {id:'hear',sec:'Previous 7 Days',title:'Things I Hear Every Day',time:'Thursday',date:'Thursday at 6:12 PM',
-   list:['Almost done.','We’re working on it.','Pending approval.','Awaiting confirmation.','By end of this week.','We’ll update you shortly.'],foot:'Reminder: Ask what “shortly” means. 🤣'},
+   list:['Almost done.','We’re working on it.','Pending approval.','Awaiting confirmation.','By end of this week.','We’ll update you shortly.','ارسلت وماردو علي'],foot:'Reminder: Ask what “shortly” means 🤣'},
   {id:'q',sec:'Previous 7 Days',title:'Questions for Every Project',time:'Monday',date:'Monday at 9:00 AM',
    olist:['Where are we today?','Where will we be next week?','Will we achieve the target by the deadline?']}
 ];
 
 const MAILS=[
-  {id:'it',from:'IT Department',av:()=>AV.initials('IT','#5e9cff','#2c5cc5'),to:Q,cc:CONFIG.owner,subject:'Re: Clarification Required',time:'9:41 AM',unread:1,
-   body:['Dear Queen,','Thank you for your email. We are currently reviewing the points raised and will revert shortly.','Best regards,<br>IT Department']},
   {id:'auto',from:Q,av:AV.queen,to:'Automation Team',cc:CONFIG.owner,subject:'Automation — Clarification Request',time:'8:10 AM',status:['Sent','#30d158'],
    body:['Dear Team,','Following our review, there are a few outstanding points that require clarification before we can proceed.','Kindly share your response at your earliest convenience.','Best regards,<br>'+Q]},
   {id:'strat',from:Q,av:AV.queen,to:CONFIG.owner,cc:'—',subject:'Corporate Strategy — Updated Comparison',time:'9:24 AM',status:['Draft / Pending Direction','#ff9f0a'],
    body:['Dear '+CONFIG.owner+',','The comparison file has been updated to include the new consulting firm.','Kindly advise when you would like me to share the updated materials.','Best regards,<br>'+Q]},
   {id:'report',from:Q,av:AV.queen,to:'Strategy & Reporting',cc:CONFIG.owner,subject:'Comprehensive Report — Further Clarification',time:'11:04 AM',status:['Sent','#30d158'],
    body:['Dear Team,','Further to my previous email, we would appreciate additional clarification on the comprehensive report requested.','Looking forward to your response.','Best regards,<br>'+Q]},
-  {id:'sf',from:Q,av:AV.queen,to:'Salesforce Support',cc:CONFIG.owner,subject:'Salesforce Dashboard Figures — Follow-up',time:'1:17 PM',status:['Sent','#30d158'],
-   body:['Dear Team,','Following up on the dashboard figures — renewals appear to be counted as new contracts.','Kindly review and share the corrected figures.','Best regards,<br>'+Q]},
+  {id:'sf',from:Q,av:AV.queen,to:'Salesforce Support',cc:CONFIG.owner,subject:'Salesforce Dashboard Data — Follow-up',time:'1:17 PM',status:['Sent','#30d158'],
+   body:['Dear Team,','Following up on the dashboard data shared previously.','Kindly review and share the updated data at your earliest convenience.','Best regards,<br>'+Q]},
   {id:'pol',from:Q,av:AV.queen,to:'Policies Committee',cc:CONFIG.owner,subject:'Policies — Review & Finalization',time:'2:42 PM',status:['Meeting to be Scheduled','#bf5af2'],
    body:['Dear all,','The policies review has been completed. A meeting will be scheduled to discuss and finalize the remaining points.','Best regards,<br>'+Q]}
 ];
@@ -514,10 +542,9 @@ const MAILS=[
 const CALLS=[
   {n:Q,type:'Incoming',t:'4:35 PM',av:AV.queen},
   {n:'Pending Approval ⏳',type:'Missed',c:3,miss:1,t:'3:20 PM'},
-  {n:'CEO Office',type:'Outgoing',out:1,t:'1:05 PM'},
   {n:'Just One Quick Question',type:'Missed',c:5,miss:1,t:'11:48 AM'},
-  {n:'Unknown Caller',type:'Missed',miss:1,t:'10:02 AM'},
-  {n:'Meeting Organizer',type:'Incoming',t:'Yesterday'}
+  {n:'Rest & Break',type:'Missed',c:'♾️',miss:1,t:'Every day'},
+  {n:'Daily’s Meetings',type:'Incoming',t:'9:00 AM'}
 ];
 
 /* ---------- photo art (placeholders until you add real photos) ---------- */
@@ -571,7 +598,7 @@ function iconEl(id,label=true){
 }
 function renderHome(){
   $('#grid').innerHTML=`<div class="widget" data-app="notes" data-arg="todo"><div class="wbox"><div class="wtop"><svg width="18" height="15" viewBox="0 0 24 20" fill="none" stroke="#fff" stroke-width="2.2"><path d="M2 4a2 2 0 0 1 2-2h5l2 2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/></svg>Notes</div><div class="wbody"><b>${WIDGET.title}</b>${WIDGET.items.map(i=>`<div class="wl ${i[1]?'d':''}"><i>${i[1]?'☑':'☐'}</i>${i[0]}</div>`).join('')}<div class="wn">${WIDGET.foot}</div></div></div><span>Notes</span></div>`+
-    ['calendar','clock','notes','photos','files','weather','settings'].map(i=>iconEl(i)).join('');
+    ['calendar','clock','notes','photos','weather','settings'].map(i=>iconEl(i)).join('');
   $('#dock').innerHTML=['phone','mail','whatsapp','safari'].map(i=>iconEl(i,false)).join('');
   tick();
 }
@@ -583,19 +610,19 @@ screen.addEventListener('click',e=>{
 /* ---------- notifications ---------- */
 function notifHTML(n){
   const big=n.contact?`<div class="big">${n.contact}</div><div class="mini">${ICONS[n.app]()}</div>`:`<div class="big sq">${ICONS[n.app]()}</div>`;
-  return `<div class="nt" data-app="${n.app}" data-arg="${n.arg||''}"><div class="av">${big}</div><div class="bd"><div class="hd"><b>${n.t}</b><small>${n.tm}</small></div><p>${n.b}</p></div></div>`;
+  return `<div class="nt" data-app="${n.app}" data-arg="${n.arg||''}"><div class="av">${big}</div><div class="bd"><div class="hd"><b>${n.t}</b><small>${n.tm}</small></div><p dir="auto" style="text-align:left">${n.b}</p></div></div>`;
 }
 function lockNotifs(){
   const items=[
-    {app:'whatsapp',contact:AV.queen(),t:Q,b:'Your updates are ready!',tm:'now',arg:'queen'},
-    {app:'mail',t:'IT Department',b:'Re: Clarification Required',tm:'9:41 AM',arg:'it'},
-    {app:'whatsapp',contact:AV.group('#2d2a4a','#a79bff'),t:'ExCom',b:'Pending approval',tm:'3:15 PM',arg:'excom'},
-    {app:'calendar',t:'CEO Office',b:'Follow-up Meeting',tm:'in 15m'},
+    {app:'whatsapp',contact:AV.queen(),t:'Queen Of Mueen',b:'Your updates are ready!',tm:'now',arg:'queen'},
+    {app:'health',t:'Healthcare',b:'Don’t forget to take some rest !',tm:'10m ago'},
+    {app:'messages',contact:AV.emoji('👦','#5ac8fa','#0a84ff'),t:'Hamoodi ❤️',b:'When you can buy a Lamborghini? 🏎️',tm:'1h ago'},
+    {app:'calendar',t:'CEO Office Manager',b:'Follow-up Meeting',tm:'in 15m'},
     {app:'reminders',t:'CEO Tasks',b:'5 updates waiting for review',tm:'7:45 AM',arg:'todo'}
   ];
   $('#lkNotifs').innerHTML=`<div class="hdr">Notification Center<span>Clear</span></div>`+items.map(notifHTML).join('');
 }
-const routeNotif=(app,arg)=>{if(app==='reminders'){app='notes'}openApp(app,null,arg||undefined)};
+const routeNotif=(app,arg)=>{if(app==='health'||app==='messages')return;if(app==='reminders'){app='notes'}openApp(app,null,arg||undefined)};
 
 /* ---------- lock ---------- */
 (function lockGesture(){
@@ -649,17 +676,18 @@ function ringLoop(){stopRing();const play=()=>{[0,.25,.5,.75].forEach((t,i)=>ton
 function stopRing(){clearInterval(ringI);try{navigator.vibrate&&navigator.vibrate(0)}catch(e){}}
 
 /* ---------- surprises (usage based) ---------- */
-function onAppOpened(){
-  state.opens++;
+function onAppOpened(id){
+  state.opens++;(state.distinct=state.distinct||new Set()).add(id);
+  if(!state.cryShown&&!state.cryQueued&&state.distinct.size>=4){state.cryQueued=true;setTimeout(cryPopup,1800)}
   if(!state.s1&&state.opens>=CONFIG.surprise1AfterApps){state.s1=true;
-    setTimeout(()=>{const c=CHATS[0];c.msgs.push({in:1,t:'One more update is coming…',time:nowWA()});c.unread++;c.time=nowWA();c.preview=null;renderHome();refreshWA();
-      showBanner({app:'whatsapp',contact:AV.queen(),t:Q,b:'One more update is coming…',tm:'now',arg:'queen'})},2500)}
+    setTimeout(()=>{const c=CHATS[0];c.msgs.push({in:1,t:'One more gossip is coming…',time:nowWA()});c.unread++;c.time=nowWA();c.preview=null;renderHome();refreshWA();
+      showBanner({app:'whatsapp',contact:AV.queen(),t:Q,b:'One more gossip is coming…',tm:'now',arg:'queen'})},2500)}
   if(state.s1&&!state.callFired&&state.opens>=CONFIG.callAfterApps){state.callFired=true;setTimeout(incomingCall,3500)}
 }
 function onHome(){
   if(state.callDone&&!state.s3){state.s3=true;
-    setTimeout(()=>{const c=CHATS[0];c.msgs.push({in:1,t:'Part 2 pending their response. 🎬',time:nowWA()});c.unread++;c.time=nowWA();renderHome();
-      showBanner({app:'whatsapp',contact:AV.queen(),t:Q,b:'Part 2 pending their response. 🎬',tm:'now',arg:'queen'})},1400)}
+    setTimeout(()=>{const c=CHATS[0];c.msgs.push({in:1,t:'Part 2 pending their response.',time:nowWA()});c.unread++;c.time=nowWA();renderHome();
+      showBanner({app:'whatsapp',contact:AV.queen(),t:Q,b:'Part 2 pending their response.',tm:'now',arg:'queen'})},1400)}
 }
 function confetti(){const c=h('<div class="confetti"></div>');const em=['👑','🎉','✨','🎬','👑'];
   for(let i=0;i<34;i++){const e=document.createElement('i');e.textContent=em[i%em.length];e.style.left=Math.random()*100+'%';e.style.animationDuration=(2+Math.random()*2)+'s';e.style.animationDelay=Math.random()*.8+'s';c.appendChild(e)}
@@ -678,7 +706,7 @@ function openApp(id,fromEl,arg){
   el.style.transformOrigin='0 0';
   el.animate([{transform:`translate(${tx}px,${ty}px) scale(${sx},${sy})`,borderRadius:`${14/sx}px`,opacity:.4},{transform:'none',borderRadius:getComputedStyle(screen).borderRadius,opacity:1}],{duration:420,easing:'cubic-bezier(.2,.9,.25,1)'});
   $('#home').classList.add('away');
-  onAppOpened();
+  onAppOpened(id);
 }
 function closeApp(fast){
   const o=state.openApp;if(!o)return;state.openApp=null;
@@ -735,11 +763,11 @@ const RENDER={};
 
 /* ================= WhatsApp ================= */
 const TICK2=`<svg class="tick" width="17" height="11" viewBox="0 0 17 11" fill="none" stroke="#53bdeb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l3 3 6-7.5M7 8l1 1 6.5-7.5"/></svg>`;
-const lastMsg=c=>[...c.msgs].reverse().find(x=>x.t);
+const lastMsg=c=>[...c.msgs].reverse().find(x=>x.t||x.voice)||{t:''};
 function waListHTML(){
   return CHATS.map(c=>{const m=lastMsg(c);let p;
-    if(c.preview)p=c.preview;else p=(m.out?TICK2+' ':(c.group&&m.from?m.from.name+': ':''))+m.t.replace(/<[^>]+>/g,'');
-    return `<div class="chat" data-chat="${c.id}"><div class="av">${c.av()}</div><div class="cb"><div class="cm"><b>${c.name}</b><p>${p}</p></div><div class="cr ${c.unread?'un':''}"><span>${c.time}</span><div style="display:flex;gap:6px;align-items:center">${c.pinned?`<svg width="14" height="14" viewBox="0 0 24 24" fill="#8696a0"><path d="M8 3l-5 5 3 1 4 4-1 5 2 2 4-4 5 5 1-1-5-5 4-4-2-2-5 1-4-4z"/></svg>`:''}${c.unread?`<div class="cnt">${c.unread}</div>`:''}</div></div></div></div>`}).join('');
+    if(c.preview)p=c.preview;else p=(m.out?TICK2+' ':(c.group&&m.from?m.from.name+': ':''))+(m.voice?'🎤 Voice message':m.t.replace(/<[^>]+>/g,''));
+    return `<div class="chat" data-chat="${c.id}"><div class="av">${c.av()}</div><div class="cb"><div class="cm"><b>${c.name}</b><p dir="auto" style="text-align:left">${p}</p></div><div class="cr ${c.unread?'un':''}"><span>${c.time}</span><div style="display:flex;gap:6px;align-items:center">${c.pinned?`<svg width="14" height="14" viewBox="0 0 24 24" fill="#8696a0"><path d="M8 3l-5 5 3 1 4 4-1 5 2 2 4-4 5 5 1-1-5-5 4-4-2-2-5 1-4-4z"/></svg>`:''}${c.unread?`<div class="cnt">${c.unread}</div>`:''}</div></div></div></div>`}).join('');
 }
 function refreshWA(){const o=state.openApp;if(!o||o.id!=='whatsapp')return;const l=$('#waList',o.el);if(l)l.innerHTML=waListHTML();const ch=$('#waUnreadChip',o.el);if(ch)ch.textContent=`Unread ${waUnread()}`;const tb=$('#waTabBadge',o.el);if(tb){tb.textContent=waUnread();tb.style.display=waUnread()?'':'none'}}
 RENDER.whatsapp=(app,chatId)=>{
@@ -751,16 +779,66 @@ RENDER.whatsapp=(app,chatId)=>{
     <div class="arch"><svg width="22" height="20" viewBox="0 0 24 22" fill="none" stroke="#8696a0" stroke-width="2"><rect x="2" y="2" width="20" height="5" rx="1"/><path d="M4 7v12a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7M9 11h6"/></svg>Archived</div>
     <div id="waList">${waListHTML()}</div><div style="height:110px"></div>`);
   const tabs=[['Updates','<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"/>'],['Calls',HANDSET.replace('<path','<path fill="none" stroke="currentColor" stroke-width="1.7"')],['Communities','<g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><circle cx="5" cy="10" r="2.4"/><circle cx="19" cy="10" r="2.4"/><path d="M6 19c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5"/></g>'],['Chats','<path d="M4 18l1-3.5A8 8 0 1 1 8 17.5z" fill="currentColor"/>'],['You','']];
-  app.appendChild(h(`<div class="tabbar">${tabs.map((t,i)=>`<div class="tab" style="${i==3?'color:#fff':''}">${i==4?`<div style="width:28px;height:28px;border-radius:50%;background:#3a3a3c;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">CEO</div>`:`<svg viewBox="0 0 24 24">${t[1]}</svg>`}${i==3?`<div class="badge" id="waTabBadge" style="background:var(--wa);color:#000;${waUnread()?'':'display:none'}">${waUnread()}</div>`:''}<span>${t[0]}</span></div>`).join('')}</div>`));
+  app.appendChild(h(`<div class="tabbar">${tabs.map((t,i)=>`<div class="tab" style="${i==3?'color:#fff':''}">${i==4?CEO_IMG('28px'):`<svg viewBox="0 0 24 24">${t[1]}</svg>`}${i==3?`<div class="badge" id="waTabBadge" style="background:var(--wa);color:#000;${waUnread()?'':'display:none'}">${waUnread()}</div>`:''}<span>${t[0]}</span></div>`).join('')}</div>`));
   v.addEventListener('click',e=>{const c=e.target.closest('.chat');if(c){buzz(4);waOpenChat(app,c.dataset.chat)}});
   if(chatId)setTimeout(()=>waOpenChat(app,chatId),60);
 };
 function bubble(m,c,prev){
   if(m.sys)return `<div class="sysm">🔒 ${m.sys}</div>`;
   if(m.d)return `<div class="dchip">${m.d}</div>`;
+  if(m.voice)return voiceHTML(m);
   const cont=prev&&((prev.in&&m.in&&prev.from===m.from)||(prev.out&&m.out));
-  return `<div class="b ${m.in?'in':'out'} ${cont?'cont':''}">${m.in&&c.group&&m.from&&!cont?`<span class="fr" style="color:${m.from.color}">${m.from.name}</span>`:''}${m.t}<span class="tm">${m.time}${m.out?' '+TICK2:''}</span></div>`;
+  const rtl=/^[^A-Za-z\u0600-\u06FF]*[\u0600-\u06FF]/.test(m.t.replace(/<[^>]+>/g,''));
+  return `<div class="b ${m.in?'in':'out'} ${cont?'cont':''}" ${rtl?'dir="rtl"':''}>${m.in&&c.group&&m.from&&!cont?`<span class="fr" style="color:${m.from.color}">${m.from.name}</span>`:''}<span dir="auto">${m.t}</span><span class="tm">${m.time}${m.out?' '+TICK2:''}</span></div>`;
 }
+function voiceHTML(m){
+  let seed=7;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};
+  const bars=Array.from({length:36},(_,i)=>{const env=Math.sin(Math.PI*(i+1)/37);return Math.round(4+env*14+rnd()*12)});
+  const d=m.voice;
+  return `<div class="b ${m.in?'in':'out'} vn" data-dur="${d}" data-t="0">
+    <div class="vrow">${m.in?'':''}<button class="vplay" aria-label="Play">${PLAY}</button>
+    <div class="vwave">${bars.map((h,i)=>`<i style="height:${h}px;animation-delay:${(i%6)*.08}s"></i>`).join('')}<span class="vdot"></span></div>
+    <div class="vav"><div class="vavi">${m.in?AV.queen():CEO_IMG('100%')}</div><svg class="vmic" width="14" height="14" viewBox="0 0 24 24" fill="#53bdeb"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="#53bdeb" stroke-width="2" fill="none"/></svg></div></div>
+    <div class="vmeta"><span class="vtime">0:${String(d).padStart(2,'0')}</span><span class="tm">${m.time}${m.out?' '+TICK2:''}</span></div></div>`;
+}
+const PLAY='<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>';
+const PAUSE='<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>';
+let VN=null;
+function vnRender(el){const d=+el.dataset.dur,t=+el.dataset.t,p=Math.min(1,t/d);const bars=$$('.vwave i',el);const k=Math.floor(p*bars.length);
+  bars.forEach((b,i)=>b.classList.toggle('on',i<k));const w=$('.vwave',el);$('.vdot',el).style.left=`calc(${p*100}% - 6px)`;
+  const show=el.classList.contains('playing')||t>0?t:d;$('.vtime',el).textContent=`0:${String(Math.floor(show)).padStart(2,'0')}`}
+function vnStop(el,reset){el.classList.remove('playing');$('.vplay',el).innerHTML=PLAY;if(reset){el.dataset.t=0}vnRender(el);if(VN&&VN.el===el)VN=null}
+function vnToggle(el){
+  if(VN&&VN.el!==el)vnStop(VN.el,false);
+  if(el.classList.contains('playing')){vnStop(el,false);return}
+  el.classList.add('playing');$('.vplay',el).innerHTML=PAUSE;buzz(5);
+  let last=performance.now();VN={el};
+  const step=now=>{if(!VN||VN.el!==el||!el.isConnected)return;const d=+el.dataset.dur;let t=+el.dataset.t+(now-last)/1000;last=now;
+    if(t>=d){el.dataset.t=0;vnStop(el,true);return}el.dataset.t=t;vnRender(el);requestAnimationFrame(step)};
+  requestAnimationFrame(step);
+}
+screen.addEventListener('click',e=>{const b=e.target.closest('.vn .vplay');if(b){e.stopPropagation();vnToggle(b.closest('.vn'))}});
+
+/* iOS alert */
+function iosAlert({title,msg,btn,onClose}){
+  const o=h(`<div class="ios-alert"><div class="ia-box"><div class="ia-body"><b>${title}</b><p>${msg}</p></div><button class="ia-btn">${btn}</button></div></div>`);
+  screen.appendChild(o);buzz([15,40,15]);ding();
+  o.animate([{opacity:0},{opacity:1}],{duration:220});$('.ia-box',o).animate([{transform:'scale(1.18)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:320,easing:'cubic-bezier(.2,.9,.3,1.1)'});
+  $('.ia-btn',o).onclick=e=>{e.stopPropagation();buzz(6);$('.ia-box',o).animate([{transform:'scale(1)'},{transform:'scale(.92)',opacity:0}],{duration:200,fill:'forwards'});
+    o.animate([{opacity:1},{opacity:0}],{duration:220,fill:'forwards'}).onfinish=()=>{o.remove();onClose&&onClose()}};
+}
+const busy=()=>!!($('.callscr')||$('.ios-alert'));
+function cryPopup(){
+  if(state.cryShown)return;if(busy()){setTimeout(cryPopup,2000);return}
+  state.cryShown=true;
+  iosAlert({title:'👑 Queen Of Mueen',msg:'Can I cry a little? 🥹<br><br>Because <bdi>حياة الكبار صعبة</bdi>',btn:'Approved 😂',onClose:()=>setTimeout(backPopup,5000)});
+}
+function backPopup(){
+  if(state.backShown)return;if(busy()){setTimeout(backPopup,2000);return}
+  state.backShown=true;
+  iosAlert({title:'👑 Queen Of Mueen',msg:'Okay, I’m back! 🥰<br><br>Where were we?',btn:'Back to Work 💪'});
+}
+
 function waOpenChat(app,id){
   const c=CHATS.find(x=>x.id===id);if(!c)return;
   const others=waUnread()-c.unread;
@@ -776,7 +854,7 @@ function waOpenChat(app,id){
   const typing=on=>{if(!v.isConnected)return;st.textContent=on?'typing…':c.sub;st.style.color=on?'var(--wa)':'';const t=$('.typing',ms);if(on&&!t){ms.insertAdjacentHTML('beforeend','<div class="b in typing"><i></i><i></i><i></i></div>');ms.scrollTop=ms.scrollHeight}if(!on&&t)t.remove()};
   // FINAL SCENE
   if(id==='queen'&&!state.finalDone&&(state.s3||state.opens>=6)){state.finalDone=true;
-    const seq=[['Congratulations! You’ve reviewed all the updates. 🎉',1200,true],['Now I just need your feedback on the pending items. 😂',2200],['The End?',1800],['No. Part 2 is coming. 👑',2200,true]];
+    const seq=[['ها شلون صرت الحين ؟ عساك احسن؟',1200],['Now I just need your feedback\u00a0…',2000],['No. Part 2 is coming. 👑',2200,true]];
     let t=600;seq.forEach(([txt,d,conf])=>{setTimeout(()=>typing(true),t);t+=d;setTimeout(()=>{typing(false);addMsg({in:1,t:txt,time:nowWA()});ding();if(conf)confetti()},t);t+=500});
   }
   const inp=$('input',v),snd=$('.snd',v),cbx=$('.cbx',v);
@@ -802,7 +880,7 @@ const CHECK=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke=
 function openNote(app,id){
   const n=NOTES.find(x=>x.id===id);
   const body=n.checks?n.checks.map((c,i)=>`<div class="chk ${c[1]?'on':''}" data-i="${i}"><i>${c[1]?CHECK:''}</i><span>${c[0]}</span></div>`).join(''):
-    n.list?`<ul>${n.list.map(x=>`<li>${x}</li>`).join('')}</ul>`:`<ol>${n.olist.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+    n.list?`<ul>${n.list.map(x=>`<li dir="auto" style="text-align:left">${x}</li>`).join('')}</ul>`:`<ol>${n.olist.map(x=>`<li>${x}</li>`).join('')}</ol>`;
   const v=push(app,`${navBack('Notes','',DOTS('#ffd60a'),'ynav')}<div class="note-body"><div class="dt">${n.date}</div><h1>${n.title}</h1>${body}${n.foot?`<p class="foot">${n.foot}</p>`:''}</div>`);
   v.addEventListener('click',e=>{const c=e.target.closest('.chk');if(!c)return;buzz(6);const i=+c.dataset.i;n.checks[i][1]=n.checks[i][1]?0:1;c.classList.toggle('on');$('i',c).innerHTML=n.checks[i][1]?CHECK:'';renderHome()});
 }
@@ -813,7 +891,7 @@ RENDER.mail=(app,mailId)=>{
   const v=mkView(app,`<div class="nav"><div class="back">${CHEV}<span>Mailboxes</span></div><span style="color:var(--blue);font-size:17px">Edit</span></div><div class="lt">Inbox</div><div class="search">${SEARCH}Search</div>
     <div id="mlist">${MAILS.map(m=>`<div class="mrow" data-m="${m.id}"><div class="dot">${m.unread?'<i></i>':''}</div>${mAv(m)}<div class="mb"><div class="mh"><b>${m.from}</b><span>${m.time} ›</span></div><div class="ms">${m.subject}</div><div class="mp">${m.body[1].replace(/<[^>]+>/g,'')}</div>${m.status?`<span class="st-chip" style="background:${m.status[1]}33;color:${m.status[1]}">${m.status[0]}</span>`:''}</div></div>`).join('')}</div>
     <div style="text-align:center;color:var(--txt2);font-size:13px;padding:16px 0 120px">Updated Just Now<br>${mailUnread()} Unread</div>`);
-  v.addEventListener('click',e=>{const r=e.target.closest('.mrow');if(r){buzz(4);openMail(app,r.dataset.m)}});
+  v.addEventListener('click',e=>{const r=e.target.closest('.mrow');if(r){buzz(4);iosAlert({title:'🔒 Mail',msg:'Please keep yourself safe from emails 😌',btn:'OK'})}});
   if(mailId)setTimeout(()=>openMail(app,mailId),60);
 };
 function openMail(app,id){
@@ -834,8 +912,8 @@ RENDER.phone=(app)=>{
   const show=i=>{$$('.tab',tb).forEach((x,j)=>x.classList.toggle('on',i==j));
     if(i==0){let seg=0;const draw=()=>{v.innerHTML=`<div class="nav"><span style="color:var(--blue);font-size:17px;margin-left:auto">Edit</span></div><div class="lt">Recents</div><div class="seg"><div class="${seg?'':'on'}" data-s="0">All</div><div class="${seg?'on':''}" data-s="1">Missed</div></div>${CALLS.filter(c=>!seg||c.miss).map(c=>`<div class="call-row" data-n="${esc(c.n)}"><div class="av">${c.av?c.av():c.n.trim()[0]}</div><div class="cb"><div class="cm"><b class="${c.miss?'miss':''}">${c.n}${c.c?` (${c.c})`:''}</b><small>${c.out?'<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 10L10 2M4 2h6v6"/></svg>':''}${c.type}</small></div><span class="tt">${c.t}</span><div class="info">i</div></div></div>`).join('')}<div style="height:120px"></div>`;
       $$('.seg div',v).forEach(s=>s.onclick=()=>{seg=+s.dataset.s;draw()})};draw()}
-    if(i==1){const names=[Q,'CEO Office','Finance','IT Department','Just One Quick Question','Meeting Organizer','Pending Approval ⏳','Salesforce Support'];
-      v.innerHTML=`<div class="nav"></div><div class="lt">Contacts</div><div class="search">${SEARCH}Search</div><div style="display:flex;gap:14px;align-items:center;padding:8px 16px 14px;border-bottom:.5px solid var(--sep)"><div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(#a5a5ab,#76767c);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">CEO</div><div><b style="font-size:20px">${CONFIG.owner}</b><div style="color:var(--txt2);font-size:14px">My Card</div></div></div>${names.map(n=>`<div class="call-row" data-n="${esc(n)}"><div class="cb"><div class="cm"><b style="font-weight:400">${n}</b></div></div></div>`).join('')}<div style="height:120px"></div>`}
+    if(i==1){const names=[Q,'Abo Alia','Abo Omar','CEO Office Manager','Daily’s Meetings','Hamoodi ❤️','Just One Quick Question','Pending Approval ⏳','Rest & Break','Roy'];
+      v.innerHTML=`<div class="nav"></div><div class="lt">Contacts</div><div class="search">${SEARCH}Search</div><div style="display:flex;gap:14px;align-items:center;padding:8px 16px 14px;border-bottom:.5px solid var(--sep)">${CEO_IMG('60px')}<div><b style="font-size:20px">${CONFIG.owner}</b><div style="color:var(--txt2);font-size:14px">My Card</div></div></div>${names.map(n=>`<div class="call-row" data-n="${esc(n)}"><div class="cb"><div class="cm"><b style="font-weight:400">${n}</b></div></div></div>`).join('')}<div style="height:120px"></div>`}
     if(i==2){let num='';v.innerHTML=`<div style="height:120px;display:flex;align-items:flex-end;justify-content:center;font-size:38px" id="dn"></div><div style="height:40px"></div><div class="keypad">${'1 2ABC 3DEF 4GHI 5JKL 6MNO 7PQRS 8TUV 9WXYZ * 0+ #'.split(' ').map(k=>`<div class="key" data-k="${k[0]}"><b>${k[0]}</b><small>${k.slice(1)}</small></div>`).join('')}</div><div style="display:flex;justify-content:center;margin-top:18px"><div class="key" id="dial" style="background:var(--green)"><svg width="34" height="34" viewBox="0 0 24 24" fill="#fff">${HANDSET}</svg></div></div>`;
       $$('.key[data-k]',v).forEach(k=>k.onclick=()=>{buzz(4);num+=k.dataset.k;$('#dn',v).textContent=num;tone(700+(+k.dataset.k||5)*40,0,.12,.06)});$('#dial',v).onclick=()=>{if(num)outgoingCall(num)}}
   };
@@ -860,10 +938,10 @@ function outgoingCall(name){
   o.addEventListener('click',e=>{if(e.target.closest('[data-a=end]')){clearTimeout(t1);clearTimeout(t2);$('.st',o).textContent='call ended';setTimeout(()=>endCall(o),500)}});
 }
 function incomingCall(){
-  if($('.callscr')){setTimeout(incomingCall,8000);return}
+  if(busy()){setTimeout(incomingCall,4000);return}
   const o=callScreen(Q,'WhatsApp audio…',true,AV.queen);ringLoop();
   const finish=()=>{state.callDone=true};
-  const missed=()=>{endCall(o);finish();CALLS.unshift({n:Q,type:'Missed',miss:1,t:nowWA(),av:AV.queen});state.missed++;renderHome()};
+  const missed=()=>{endCall(o);finish();CALLS.unshift({n:Q,type:'Missed',miss:1,t:nowWA(),av:AV.queen});if(typeof state.missed==='number')state.missed++;renderHome()};
   const timer=setTimeout(missed,30000);
   o.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;clearTimeout(timer);stopRing();
     if(a.dataset.a==='dec')missed();
@@ -872,7 +950,7 @@ function incomingCall(){
       let s=0;const st=$('.st',o);st.textContent='00:00';const iv=setInterval(()=>{s++;st.textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},1000);
       const caps=$('.caps',o);
       const say=(t,d)=>setTimeout(()=>{if(o.isConnected){caps.insertAdjacentHTML('beforeend',`<div><b>${Q}</b>${t}</div>`);tone(660,0,.1,.04)}},d);
-      say('Good news! Your project updates are ready. ✅',1500);say('Bad news… we’re still waiting for some replies. 😂',5000);
+      say('<span dir="rtl" style="display:block">تحتاج شي ثاني ؟ ندخل الميتنق ؟</span>',1500);say('just a quick update regarding the courses , I have finished 80% with full knowledge <bdi>مو بس ورق</bdi> 😁',5000);
       CALLS.unshift({n:Q,type:'Incoming',t:nowWA(),av:AV.queen});
       o.addEventListener('click',e2=>{if(e2.target.closest('[data-a=end]')){clearInterval(iv);st.textContent='call ended';finish();setTimeout(()=>endCall(o),600)}});
     }
@@ -921,7 +999,7 @@ RENDER.files=(app)=>{
   app.appendChild(h(`<div class="tabbar">${[['Recents','<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6v6h4" stroke="#000" stroke-width="2.2" fill="none" stroke-linecap="round"/>'],['Shared','<path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8"/>'],['Browse','<path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8"/>']].map((t,i)=>`<div class="tab ${i==0?'on':''}"><svg viewBox="0 0 24 24">${t[1]}</svg><span>${t[0]}</span></div>`).join('')}</div>`));
   v.addEventListener('click',e=>{const r=e.target.closest('[data-f]');if(!r)return;buzz(5);const f=r.dataset.f;
     if(f==='p1')push(app,`${navBack('Recents','Updates — Part 1.pdf')}<div style="height:14px"></div><div class="doc"><h2>Project Updates — Part 1 👑</h2><div class="sub">Prepared by ${Q} · ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}</div>
-      ${[['Automation','Clarification email sent on outstanding points — awaiting response.'],['Corporate Strategy','Comparison file updated to include the new consulting firm — awaiting direction on sharing.'],['Comprehensive Report','Second email sent requesting further clarification.'],['Salesforce','Follow-up sent on dashboard figures (renewals counted as new contracts).'],['Policies','Review completed — meeting to be scheduled to finalize remaining points.']].map(x=>`<div class="it"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}
+      ${[['Confirmation Emails','Sent — waiting for response.'],['Corporate Strategy','Comparison file updated to include the new consulting firm. Materials to be shared with the committee, with a meeting invite.'],['Salesforce','Follow-up email sent regarding the dashboard data.'],['New Enhancements','Scheduling a meeting for the team to present all the new enhancements.'],['Policies','Review & finalization — meeting to be scheduled.']].map(x=>`<div class="it"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}
       <div class="it"><b>Part 2</b><span>Coming once everyone replies. 🎬</span></div></div><div style="height:40px"></div>`);
     if(f==='cmp')push(app,`${navBack('Recents','Comparison File')}<div style="height:14px"></div><div class="doc" style="padding:0;overflow:hidden"><div style="background:#1d6f42;color:#fff;padding:10px 14px;font-weight:600">Consulting Firms — Comparison</div><table style="width:100%;border-collapse:collapse;font-size:13px">${[['Criteria','Firm A','Firm B','New Firm'],['Experience','✓','✓','✓'],['Timeline','12 wks','10 wks','8 wks'],['Fit','Good','Good','Strong'],['Status','—','—','Added ✓']].map((r,i)=>`<tr>${r.map(c=>`<td style="border:1px solid #ddd;padding:9px 8px;${i==0?'font-weight:700;background:#eef5f0':''}">${c}</td>`).join('')}</tr>`).join('')}</table><div style="padding:12px 14px;font-size:13px;color:#666">Awaiting direction on when to share the updated materials.</div></div>`);
     if(f==='pol')push(app,`${navBack('Recents','Policies')}<div style="height:14px"></div><div class="doc"><h2>Policies — Review</h2><div class="sub">Status: Reviewed ✓ · Meeting to be scheduled</div>${['Review completed','Remaining points identified','Meeting to discuss and finalize — to be scheduled'].map(x=>`<div class="it"><span>• ${x}</span></div>`).join('')}</div>`);
@@ -943,7 +1021,7 @@ function passcode(app){
 
 /* ================= Clock ================= */
 RENDER.clock=(app)=>{
-  const AL=[['6:00','AM','Wake Up',1],['8:00','AM','Ask for Updates',1],['10:00','AM','Follow Up',1],['12:00','PM','Follow Up Again',1],['3:00','PM','Pending Approvals',1],['5:00','PM','Go Home',1],['5:01','PM','Just One More Meeting 😂',1]];
+  const AL=[['6:00','AM','Wake Up',1],['8:00','AM','Ask for Updates — <bdi>وش صار ؟</bdi>',1],['10:00','AM','Follow Up',1],['12:00','PM','Follow Up Again',1],['3:00','PM','Physical therapy — <bdi>قدامك العافيه</bdi>',1],['5:00','PM','Go Home & Rest (I Hope)',1],['5:01','PM','Just One More Meeting 😂',1]];
   const v=mkView(app,`<div class="nav"><span style="color:var(--orange);font-size:17px">Edit</span><svg width="22" height="22" viewBox="0 0 24 24" stroke="#ff9f0a" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg></div><div class="lt">Alarms</div>
     <div style="padding:6px 16px 4px;font-size:15px;font-weight:600;color:var(--txt2)">🛏 Sleep | Wake Up</div><div style="padding:4px 16px 12px;font-size:15px;color:var(--txt2);border-bottom:.5px solid var(--sep)">No Alarm</div>
     <div style="padding:14px 16px 4px;font-size:20px;font-weight:700">Other</div>
@@ -957,7 +1035,7 @@ RENDER.settings=(app)=>{
   const row=(bg,ic,l,val='',extra='')=>`<div class="row" ${extra}><div class="ri" style="background:${bg}">${ic}</div><div class="rl">${l}</div>${val}${val.includes('sw')?'':CHEVR}</div>`;
   const I=p=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">${p}</svg>`;
   const v=mkView(app,`<div class="nav"></div><div class="lt">Settings</div>
-    <div class="group"><div class="row" style="padding:12px 16px"><div style="width:62px;height:62px;border-radius:50%;background:linear-gradient(#a5a5ab,#76767c);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;flex:none">CEO</div><div style="flex:1"><div style="font-size:21px;font-weight:600">${CONFIG.owner}</div><div style="font-size:14px;color:var(--txt2)">Apple Account, iCloud, and more</div></div>${CHEVR}</div></div>
+    <div class="group"><div class="row" style="padding:12px 16px">${CEO_IMG('62px')}<div style="flex:1"><div style="font-size:21px;font-weight:600">${CONFIG.owner}</div><div style="font-size:14px;color:var(--txt2)">Apple Account, iCloud, and more</div></div>${CHEVR}</div></div>
     <div class="group">
       ${row('#ff9500',I('<path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/>'),'Airplane Mode',`<div class="sw ${state.air?'on':''}" id="airSw"><i></i></div>`)}
       ${row('#0a84ff',I('<path d="M12 18.5a1.8 1.8 0 1 0 0 .01zM5.6 12.6a9 9 0 0 1 12.8 0l-1.7 1.7a6.6 6.6 0 0 0-9.4 0zM2 9a14 14 0 0 1 20 0l-1.7 1.7a11.6 11.6 0 0 0-16.6 0z"/>'),'Wi-Fi','<span class="rv">HQ-Executive</span>')}
@@ -982,7 +1060,7 @@ RENDER.settings=(app)=>{
     </div><div style="height:40px"></div>`);
   $('#airSw',v).addEventListener('click',e=>{e.stopPropagation();buzz(8);state.air=!state.air;e.currentTarget.classList.toggle('on',state.air);$('#statusbar').classList.toggle('air',state.air)});
   v.addEventListener('click',e=>{const r=e.target.closest('[data-p]');if(!r)return;buzz(4);
-    if(r.dataset.p==='gen')push(app,`${navBack('Settings','About')}<div style="height:16px"></div><div class="group">${[['Name',CONFIG.owner+'’s iPhone'],['iOS Version','26.1'],['Model Name','iPhone 17 Pro Max'],['Capacity','512 GB'],['Unread Follow-ups','128'],['Meetings Today','∞'],['Pending Approvals','Yes']].map(x=>`<div class="row noic"><div class="rl">${x[0]}</div><span class="rv">${x[1]}</span></div>`).join('')}</div>`);
+    if(r.dataset.p==='gen')push(app,`${navBack('Settings','About')}<div style="height:16px"></div><div class="group">${[['Name',CONFIG.owner+'’s iPhone'],['iOS Version','26.1'],['Model Name','iPhone 17 Pro Max'],['Capacity','512 GB'],['Unread Follow-ups','128'],['Meetings Today','∞'],['Rest & Break','Pending ⏳']].map(x=>`<div class="row noic"><div class="rl">${x[0]}</div><span class="rv">${x[1]}</span></div>`).join('')}</div>`);
     if(r.dataset.p==='batt')push(app,`${navBack('Settings','Battery')}<div style="text-align:center;padding:30px 0 20px"><div style="font-size:64px;font-weight:700;color:var(--green)">31%</div><div style="color:var(--txt2)">Mostly used by: WhatsApp, Mail, Calendar</div></div><div class="group"><div class="row noic"><div class="rl">Low Power Mode</div><div class="sw"><i></i></div></div><div class="row noic"><div class="rl">Battery Health</div><span class="rv">Following up…</span></div></div>`);
   });
 };
@@ -991,7 +1069,7 @@ RENDER.settings=(app)=>{
 RENDER.calendar=(app)=>{
   const d=new Date();const start=new Date(d);start.setDate(d.getDate()-d.getDay());
   const days=Array.from({length:7},(_,i)=>{const x=new Date(start);x.setDate(start.getDate()+i);return x});
-  const EV=[['8:00 AM','Daily Updates',Q,'#bf5af2'],['11:00 AM','Follow-up Meeting','CEO Office','#0a84ff'],['1:00 PM','Executive Committee','Board Room','#30d158'],['3:00 PM','Policies — Finalization','To be scheduled','#ff9f0a'],['5:00 PM','Go Home','Optimistic','#8e8e93'],['5:01 PM','Just One More Meeting 😂','Same room','#ff453a']];
+  const EV=[['8:00 AM','Daily’s Meetings',Q,'#bf5af2'],['11:00 AM','Follow-up Meeting','CEO Office','#0a84ff'],['1:00 PM','Executive Committee','Board Room','#30d158'],['3:00 PM','Physical Therapy 💪','قدامك العافيه','#ff9f0a'],['5:00 PM','Go Home & Rest','(I hope)','#8e8e93'],['5:01 PM','Just One More Meeting 😂','Same room','#ff453a']];
   mkView(app,`<div class="nav"><div class="back" style="color:var(--red)">${CHEV}<span>${d.toLocaleDateString('en-US',{month:'long'})}</span></div><div style="display:flex;gap:18px;color:var(--red)">${SEARCH}<svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg></div></div>
     <div class="cal-strip">${days.map((x,i)=>`<div><small>${'SMTWTFS'[i]}</small><b class="${x.toDateString()===d.toDateString()?'td':''}">${x.getDate()}</b></div>`).join('')}</div>
     <div style="padding:12px 16px;font-size:15px;color:var(--txt2)">${d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</div>
@@ -1010,7 +1088,7 @@ RENDER.weather=(app)=>{
 RENDER.safari=(app)=>{
   const fav=[['Salesforce','#00a1e0'],['Outlook','#0a64c8'],['LinkedIn','#0a66c2'],['Teams','#5059c9'],['Power BI','#f2c811'],['SharePoint','#038387'],['Argaam','#0b6e4f'],['X','#000']];
   mkView(app,`<div style="height:20px"></div><div style="padding:0 20px;font-size:22px;font-weight:700;margin-bottom:12px">Favorites</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px 8px;padding:0 16px">${fav.map(f=>`<div style="display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px"><div style="width:62px;height:62px;border-radius:14px;background:${f[1]};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:${f[1]==='#f2c811'?'#000':'#fff'}">${f[0][0]}</div><span>${f[0]}</span></div>`).join('')}</div>
-    <div style="padding:26px 20px 10px;font-size:22px;font-weight:700">Recent Searches</div><div class="group">${['what does “shortly” mean in business','“noted” vs. an actual date','how to get a specific completion date','renewals counted as new contracts','meeting-free afternoon is it possible','how to say “any updates?” in 10 ways'].map(s=>`<div class="row noic"><span style="color:#8e8e93">${SEARCH}</span><div class="rl" style="font-size:16px">${s}</div></div>`).join('')}</div><div style="height:120px"></div>`);
+    <div style="padding:26px 20px 10px;font-size:22px;font-weight:700">Recent Searches</div><div class="group">${['what does “shortly” mean in business','“noted” vs. an actual date','how to get a specific completion date','salesforce dashboard data follow-up','meeting-free afternoon is it possible','how to say “any updates?” in 10 ways'].map(s=>`<div class="row noic"><span style="color:#8e8e93">${SEARCH}</span><div class="rl" style="font-size:16px">${s}</div></div>`).join('')}</div><div style="height:120px"></div>`);
   app.appendChild(h(`<div style="position:absolute;bottom:26px;left:14px;right:14px;height:50px;border-radius:25px;background:rgba(44,44,46,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;gap:6px;font-size:16px;color:var(--txt2)">${SEARCH}Search or enter website</div>`));
 };
 
