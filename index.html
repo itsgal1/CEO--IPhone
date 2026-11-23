@@ -398,8 +398,7 @@ const CONFIG = {
   callAfterApps: 3,        // Incoming call from Queen
   // Photos: replace an album's "photos" with your own image paths, e.g. ["photos/work1.jpg","photos/work2.jpg"]
   albums: [
-    { name: "Work Life 📊", photos: null },
-    { name: "The Never-Ending Follow-ups 📧", photos: null }
+    { name: "The Never-Ending Follow-ups 📧", photos: null, art: 1 }
   ]
 };
 
@@ -461,7 +460,7 @@ const CHATS=[
     {out:1,t:'وش صار على المشاريع ؟ فيه تحديث ؟',time:'8:05 AM'},
     {in:1,t:'ايوه عندي',time:'8:06 AM'},
     {out:1,t:'Go ahead.',time:'8:06 AM'},
-    {in:1,t:'ارسلت ايميلات تاكيد waiting for response بخصوص:<br>١- موضوع تقرير المراجعة الشاملة ل Salesforce with touch points<br>٢- الداش بورد داتا Salesforce وعدم حسبة تجديد العقود كـ عقد جديد | لم يتم حلها إلى الان + تم ارسال ايميل بذلك<br>٣- الاوتوميشن وتصور تحسينات النظام | سيتم ارسال ايميل لتأكيد تنفيذ التصور<br>٤- متطلبات ال IPO , تحتاج جلسة وريلاكس 🧘🏽‍♀️<br>٥- متابعة ال challenges | كل شي بوقته حلو نشوف الابديت بالميتنق بكرا 🏃🏾‍♂️<br>٦- ماكينزي ارسلو التيم CV<br>٧- السياسات تحتاج جلستين مع بنادول 💊',time:'8:08 AM'},
+    {in:1,t:'ارسلت ايميلات تاكيد لبعضهم waiting for response بخصوص:<br>١- موضوع تقرير المراجعة الشاملة ل Salesforce with touch points<br>٢- الداش بورد داتا Salesforce وعدم حسبة تجديد العقود كـ عقد جديد | لم يتم حلها إلى الان + تم ارسال ايميل بذلك<br>٣- الاوتوميشن وتصور تحسينات النظام | سيتم ارسال ايميل لتأكيد تنفيذ التصور<br>٤- متطلبات ال IPO , تحتاج جلسة وريلاكس 🧘🏽‍♀️<br>٥- متابعة ال challenges<br>٦- ماكينزي ارسلو التيم CV<br>٧- السياسات تحتاج جلستين مع بنادول 💊',time:'8:08 AM'},
     {out:1,t:'When I can get the response?',time:'8:10 AM'},
     {in:1,t:'أمم بشوف معهم الان',time:'8:11 AM'},
     {out:1,t:'Okay. Strategy?',time:'9:20 AM'},
@@ -471,7 +470,7 @@ const CHATS=[
     {out:1,t:'اخلص اجتماع ونجلس عليها',time:'9:31 AM'},
     {in:1,t:'اوكي',time:'9:31 AM'},
     {out:1,voice:27,time:'2:40 PM'},
-    {in:1,t:'بكلمهم علشان نحدد وقت يعرضون كل ال new enhancement on Salesforce',time:'2:43 PM'},
+    {in:1,t:'ارسلت لابو عمر ايميل علشان نرتب اجتماع ديمو Salesforce الاربعاء ١٢:٣٠',time:'2:43 PM'},
     {out:1,t:'بيض الله وجهك',time:'2:44 PM'},
     {in:1,t:'That’s Part 1 😁',time:'4:20 PM'},
     {out:1,t:'Part 1?',time:'4:21 PM'},
@@ -507,6 +506,16 @@ const CHATS=[
     {in:1,t:'Almost. One last check.',time:'12:36 PM'},
     {out:1,t:'From whom?',time:'12:37 PM'},
     {in:1,t:'Awaiting confirmation',time:'12:40 PM'}]},
+  {id:'rahaf',name:'Abo Rahaf',av:()=>AV.initials('AR','#ff6b8b','#c2185b'),unread:1,time:'1:20 PM',sub:'last seen today at 1:20 PM',preview:'Done from yesterday',
+   msgs:[{sys:ENC},{d:'Today'},
+    {out:1,t:'وش صار على التطبيق ؟',time:'1:02 PM'},
+    {in:1,t:'تستهبل دن من امس',time:'1:04 PM'},
+    {out:1,t:'اقدر اشوفه ؟',time:'1:05 PM'},
+    {in:1,t:'اممم 🤣',time:'1:07 PM'},
+    {out:1,t:'وش ؟',time:'1:07 PM'},
+    {in:1,t:'شف اقسم بالله اقدر أنزلك التيم الان ويخلونك تشوفه لكن يعني علشان يليق بمقامك بتشوفه بكرا 😁',time:'1:12 PM'},
+    {out:1,t:'ممتاز، يعطيك العافية',time:'1:15 PM'},
+    {in:1,t:'أنا ترا مافي زيي ههههه',time:'1:20 PM'}]},
   {id:'office',name:'CEO Office Manager',av:()=>AV.initials('CO','#ff9f0a','#c75b00'),unread:1,time:'11:30 AM',sub:'last seen today at 11:30 AM',preview:'Meeting to be scheduled',
    msgs:[{sys:ENC},{d:'Today'},
     {in:1,t:'Your calendar is fully booked today.',time:'11:20 AM'},
@@ -531,7 +540,7 @@ const MAILS=[
    body:['Dear Team,','Following our review, there are a few outstanding points that require clarification before we can proceed.','Kindly share your response at your earliest convenience.','Best regards,<br>'+Q]},
   {id:'strat',from:Q,av:AV.queen,to:CONFIG.owner,cc:'—',subject:'Corporate Strategy — Updated Comparison',time:'9:24 AM',status:['Draft / Pending Direction','#ff9f0a'],
    body:['Dear '+CONFIG.owner+',','The comparison file has been updated to include the new consulting firm.','Kindly advise when you would like me to share the updated materials.','Best regards,<br>'+Q]},
-  {id:'report',from:Q,av:AV.queen,to:'Strategy & Reporting',cc:CONFIG.owner,subject:'Comprehensive Report — Clarification',time:'11:04 AM',status:['Sent','#30d158'],
+  {id:'report',from:Q,av:AV.queen,to:'Strategy & Reporting',cc:CONFIG.owner,subject:'Comprehensive Report — Clarification',time:'11:04 AM',status:['Not completed / sent','#ff453a'],
    body:['Dear Team,','Further to my previous email, we would appreciate additional clarification on the comprehensive report requested.','Looking forward to your response.','Best regards,<br>'+Q]},
   {id:'sf',from:Q,av:AV.queen,to:'Salesforce Support',cc:CONFIG.owner,subject:'Salesforce Dashboard Data — Follow-up',time:'1:17 PM',status:['Not completed / sent','#ff453a'],
    body:['Dear Team,','Following up on the dashboard data shared previously.','Kindly review and share the updated data at your earliest convenience.','Best regards,<br>'+Q]},
@@ -575,7 +584,7 @@ const ART={
     art('#1c1c1e','#2c2c2e',`<rect x="100" y="120" width="400" height="360" rx="24" fill="#fff"/><rect x="100" y="120" width="400" height="80" rx="24" fill="#ff3b30"/><rect x="100" y="170" width="400" height="30" fill="#ff3b30"/>`+T(300,178,34,'5:01 PM')+T(300,320,40,'Just One More','#111')+T(300,380,40,'Meeting 😂','#111'))
   ]
 };
-const ALBUMS=CONFIG.albums.map((a,i)=>({name:a.name,photos:(a.photos&&a.photos.length)?a.photos:ART[i]||[]}));
+const ALBUMS=CONFIG.albums.map((a,i)=>({name:a.name,photos:(a.photos&&a.photos.length)?a.photos:ART[a.art!=null?a.art:i]||[]}));
 
 /* ---------- time ---------- */
 const fmt=d=>`${d.getHours()%12||12}:${String(d.getMinutes()).padStart(2,'0')}`;
@@ -912,7 +921,7 @@ RENDER.phone=(app)=>{
   const show=i=>{$$('.tab',tb).forEach((x,j)=>x.classList.toggle('on',i==j));
     if(i==0){let seg=0;const draw=()=>{v.innerHTML=`<div class="nav"><span style="color:var(--blue);font-size:17px;margin-left:auto">Edit</span></div><div class="lt">Recents</div><div class="seg"><div class="${seg?'':'on'}" data-s="0">All</div><div class="${seg?'on':''}" data-s="1">Missed</div></div>${CALLS.filter(c=>!seg||c.miss).map(c=>`<div class="call-row" data-n="${esc(c.n)}"><div class="av">${c.av?c.av():c.n.trim()[0]}</div><div class="cb"><div class="cm"><b class="${c.miss?'miss':''}">${c.n}${c.c?` (${c.c})`:''}</b><small>${c.out?'<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 10L10 2M4 2h6v6"/></svg>':''}${c.type}</small></div><span class="tt">${c.t}</span><div class="info">i</div></div></div>`).join('')}<div style="height:120px"></div>`;
       $$('.seg div',v).forEach(s=>s.onclick=()=>{seg=+s.dataset.s;draw()})};draw()}
-    if(i==1){const names=[Q,'Abo Alia','Abo Omar','CEO Office Manager','Daily’s Meetings','Hamoodi ❤️','Just One Quick Question','Pending Approval ⏳','Rest & Break','Roy'];
+    if(i==1){const names=[Q,'Abo Alia','Abo Omar','Abo Rahaf','CEO Office Manager','Daily’s Meetings','Hamoodi ❤️','Just One Quick Question','Pending Approval ⏳','Rest & Break','Roy'];
       v.innerHTML=`<div class="nav"></div><div class="lt">Contacts</div><div class="search">${SEARCH}Search</div><div style="display:flex;gap:14px;align-items:center;padding:8px 16px 14px;border-bottom:.5px solid var(--sep)">${CEO_IMG('60px')}<div><b style="font-size:20px">${CONFIG.owner}</b><div style="color:var(--txt2);font-size:14px">My Card</div></div></div>${names.map(n=>`<div class="call-row" data-n="${esc(n)}"><div class="cb"><div class="cm"><b style="font-weight:400">${n}</b></div></div></div>`).join('')}<div style="height:120px"></div>`}
     if(i==2){let num='';v.innerHTML=`<div style="height:120px;display:flex;align-items:flex-end;justify-content:center;font-size:38px" id="dn"></div><div style="height:40px"></div><div class="keypad">${'1 2ABC 3DEF 4GHI 5JKL 6MNO 7PQRS 8TUV 9WXYZ * 0+ #'.split(' ').map(k=>`<div class="key" data-k="${k[0]}"><b>${k[0]}</b><small>${k.slice(1)}</small></div>`).join('')}</div><div style="display:flex;justify-content:center;margin-top:18px"><div class="key" id="dial" style="background:var(--green)"><svg width="34" height="34" viewBox="0 0 24 24" fill="#fff">${HANDSET}</svg></div></div>`;
       $$('.key[data-k]',v).forEach(k=>k.onclick=()=>{buzz(4);num+=k.dataset.k;$('#dn',v).textContent=num;tone(700+(+k.dataset.k||5)*40,0,.12,.06)});$('#dial',v).onclick=()=>{if(num)outgoingCall(num)}}
